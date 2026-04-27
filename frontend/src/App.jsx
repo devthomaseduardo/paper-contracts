@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { ContractForm } from './components/ContractForm';
 import { ContractPreview } from './components/ContractPreview';
 import { Sidebar } from './components/Sidebar';
-import { FloatingCalculator } from './components/FloatingCalculator';
 import { INITIAL_CONTRACT_DATA } from './types';
 import { Menu, Save, Trash2, FileText, Eye, History } from 'lucide-react';
 
-const STORAGE_KEY = 'contractforge_data_v2';
-const HISTORY_KEY = 'contractforge_history_v1';
-const CLIENTS_KEY = 'contractforge_clients_v1';
+import { getClients, saveClient as apiSaveClient, deleteClient as apiDeleteClient } from './services/api';
+
+const STORAGE_KEY = 'papercontracts_current_v1';
+const HISTORY_KEY = 'papercontracts_history_v1';
 
 const App = () => {
   const [contractData, setContractData] = useState(INITIAL_CONTRACT_DATA);
@@ -18,6 +18,12 @@ const App = () => {
   const [lastSaved, setLastSaved] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -39,14 +45,16 @@ const App = () => {
       }
     }
 
-    const savedClients = localStorage.getItem(CLIENTS_KEY);
-    if (savedClients) {
+    // Load Clients from API
+    const loadClients = async () => {
       try {
-        setClientProfiles(JSON.parse(savedClients));
+        const data = await getClients();
+        setClientProfiles(data);
       } catch (e) {
-        console.error(e);
+        console.error('Error loading clients:', e);
       }
-    }
+    };
+    loadClients();
   }, []);
 
   useEffect(() => {
@@ -80,29 +88,24 @@ const App = () => {
     const updatedHistory = [newDoc, ...history];
     setHistory(updatedHistory);
     localStorage.setItem(HISTORY_KEY, JSON.stringify(updatedHistory));
-    alert('Documento salvo no histórico!');
+    showToast('Documento salvo no histórico!');
   };
 
-  const saveClientProfile = (client) => {
-    const exists = clientProfiles.find(c => c.clientDoc === client.clientDoc);
-    if (exists) {
-        if (!confirm('Este cliente já existe. Deseja atualizar os dados?')) return;
-        const updated = clientProfiles.map(c => c.clientDoc === client.clientDoc ? client : c);
-        setClientProfiles(updated);
-        localStorage.setItem(CLIENTS_KEY, JSON.stringify(updated));
-    } else {
-        const updated = [client, ...clientProfiles];
-        setClientProfiles(updated);
-        localStorage.setItem(CLIENTS_KEY, JSON.stringify(updated));
+        showToast('Perfil do cliente salvo no banco de dados!');
+    } catch (e) {
+        showToast('Erro ao salvar cliente: ' + e.message, 'error');
     }
-    alert('Perfil do cliente salvo!');
   };
 
-  const deleteClientProfile = (doc) => {
+  const deleteClientProfile = async (doc) => {
     if (confirm('Excluir perfil deste cliente?')) {
-        const updated = clientProfiles.filter(c => c.clientDoc !== doc);
-        setClientProfiles(updated);
-        localStorage.setItem(CLIENTS_KEY, JSON.stringify(updated));
+        try {
+            await apiDeleteClient(doc);
+            setClientProfiles(prev => prev.filter(c => c.clientDoc !== doc));
+            showToast('Perfil excluído com sucesso!');
+        } catch (e) {
+            showToast('Erro ao excluir cliente: ' + e.message, 'error');
+        }
     }
   }
 
@@ -150,9 +153,9 @@ const App = () => {
         if (parsed.current) {
           setContractData(parsed.current);
         }
-        alert('Dados importados com sucesso!');
+        showToast('Dados importados com sucesso!');
       } catch (err) {
-        alert('Erro ao importar arquivo. Verifique se o formato está correto.');
+        showToast('Erro ao importar arquivo.', 'error');
         console.error(err);
       }
     };
@@ -329,6 +332,7 @@ const App = () => {
                 clientProfiles={clientProfiles}
                 onSaveClient={saveClientProfile}
                 onDeleteClient={deleteClientProfile}
+                onNotify={showToast}
               />
             )}
           </div>
@@ -340,7 +344,20 @@ const App = () => {
             </div>
           </div>
         </main>
-        <FloatingCalculator />
+
+        {/* CUSTOM TOAST */}
+        {toast && (
+            <div className="fixed top-20 right-6 left-6 md:left-auto md:w-80 z-[100] animate-in fade-in slide-in-from-top-4 duration-300">
+                <div className={`flex items-center gap-3 p-4 rounded-2xl border backdrop-blur-xl shadow-2xl ${
+                    toast.type === 'error' ? 'bg-rose-500/10 border-rose-500/20 text-rose-400' : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                }`}>
+                    <div className={`p-2 rounded-xl ${toast.type === 'error' ? 'bg-rose-500 text-white' : 'bg-emerald-500 text-white'}`}>
+                        {toast.type === 'error' ? <AlertTriangle size={16} /> : <ShieldCheck size={16} />}
+                    </div>
+                    <span className="text-xs font-black uppercase tracking-widest">{toast.message}</span>
+                </div>
+            </div>
+        )}
       </div>
     </div>
   );

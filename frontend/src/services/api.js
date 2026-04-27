@@ -64,3 +64,24 @@ export async function generateTimeline(services) {
   }
   return await res.json();
 }
+
+export async function getClients() {
+  const res = await fetch(`${apiBase()}/api/v1/clients`);
+  if (!res.ok) throw new Error(await parseError(res));
+  return await res.json();
+}
+
+export async function saveClient(client) {
+  const res = await fetch(`${apiBase()}/api/v1/clients`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(client),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return await res.json();
+}
+
+export async function deleteClient(doc) {
+  const res = await fetch(`${apiBase()}/api/v1/clients/${doc}`, { method: 'DELETE' });
+  if (!res.ok) throw new Error(await parseError(res));
+}

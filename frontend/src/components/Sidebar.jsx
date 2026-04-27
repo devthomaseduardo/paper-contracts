@@ -29,15 +29,12 @@ export const Sidebar = ({ currentType, onSelect }) => {
   return (
     <div className="w-20 lg:w-72 bg-slate-950/80 backdrop-blur-xl border-r border-slate-800/50 flex flex-col h-full shrink-0 transition-all duration-300 z-50">
       <div className="h-24 flex items-center justify-center lg:justify-start lg:px-10 border-b border-slate-800/30">
-        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 flex items-center justify-center shadow-2xl shadow-indigo-500/40 shrink-0 relative group cursor-pointer animate-float">
-          <ShieldCheck className="text-white drop-shadow-lg" size={24} />
-          <div className="absolute inset-0 bg-white/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-2xl shadow-indigo-500/10 shrink-0 relative group cursor-pointer overflow-hidden border border-slate-200">
+          <img src="/paper‑contracts.png" alt="Logo" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+          <div className="absolute inset-0 bg-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </div>
         <div className="ml-5 hidden lg:block overflow-hidden">
-          <h1 className="font-bold text-xl text-white tracking-tighter leading-none flex items-center gap-1">
-            <span className="bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">Papel</span>
-            <span className="text-indigo-400">Passado</span>
-          </h1>
+            <span className="bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent italic">paper-contracts</span>
           <div className="flex items-center gap-2 mt-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <p className="text-[10px] text-slate-500 font-bold tracking-widest uppercase">by devthomas</p>

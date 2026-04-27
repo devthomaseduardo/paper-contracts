@@ -1,10 +1,10 @@
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const MODEL = 'gemini-2.5-flash';
+const MODEL = 'gemini-1.5-flash';
 
 function getClient(apiKey) {
   if (!apiKey) return null;
-  return new GoogleGenAI({ apiKey });
+  return new GoogleGenerativeAI(apiKey);
 }
 
 export async function refineServiceDescription(apiKey, rawInput) {
@@ -25,13 +25,14 @@ export async function refineServiceDescription(apiKey, rawInput) {
       Entrada Bruta: "${rawInput.replace(/"/g, '\\"')}"
     `;
 
-    const response = await ai.models.generateContent({
-      model: MODEL,
-      contents: prompt,
-      config: { responseMimeType: 'application/json' },
+    const model = ai.getGenerativeModel({ model: MODEL });
+
+    const result = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: { responseMimeType: 'application/json' },
     });
 
-    const text = response.text;
+    const text = result.response.text();
     if (!text) return [rawInput];
 
     try {
@@ -56,9 +57,8 @@ export async function generateLegalClause(apiKey, request) {
   }
 
   try {
-    const response = await ai.models.generateContent({
-      model: MODEL,
-      contents: `
+    const model = ai.getGenerativeModel({ model: MODEL });
+    const result = await model.generateContent(`
                 Atue como um Advogado Especialista em Contratos de Tecnologia.
                 Escreva uma cláusula contratual formal, direta e segura para o seguinte pedido: "${request.replace(/"/g, '\\"')}".
 
@@ -67,9 +67,8 @@ export async function generateLegalClause(apiKey, request) {
                 - Seja conciso, mas proteja as partes.
                 - Não inclua explicações, apenas o texto da cláusula.
                 - Comece o texto diretamente.
-            `,
-    });
-    return response.text ?? '';
+            `);
+    return result.response.text() ?? '';
   } catch (error) {
     console.error('generateLegalClause:', error);
     return 'Erro ao gerar cláusula. Tente novamente.';
@@ -95,13 +94,14 @@ export async function analyzeDocumentRisks(apiKey, documentContent) {
       3. Se não houver riscos graves, dê dicas de melhoria.
     `;
 
-    const response = await ai.models.generateContent({
-      model: MODEL,
-      contents: prompt,
-      config: { responseMimeType: 'application/json' },
+    const model = ai.getGenerativeModel({ model: MODEL });
+
+    const result = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: { responseMimeType: 'application/json' },
     });
 
-    return response.text ?? '[]';
+    return result.response.text() ?? '[]';
   } catch (error) {
     console.error('analyzeDocumentRisks:', error);
     return '[]';
@@ -126,13 +126,14 @@ export async function generateProjectTimeline(apiKey, services) {
       3. Divida em no máximo 5 ou 6 fases lógicas.
     `;
 
-    const response = await ai.models.generateContent({
-      model: MODEL,
-      contents: prompt,
-      config: { responseMimeType: 'application/json' },
+    const model = ai.getGenerativeModel({ model: MODEL });
+
+    const result = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: { responseMimeType: 'application/json' },
     });
 
-    return response.text ?? '[]';
+    return result.response.text() ?? '[]';
   } catch (error) {
     console.error('generateProjectTimeline:', error);
     return '[]';

@@ -623,15 +623,28 @@ export const ContractPreview = ({ data }) => {
 
             <div 
                 id="printable-content" 
-                className={`bg-white text-black shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] origin-top transition-transform duration-500 ${isPrintMode ? 'scale-100' : 'scale-[0.85] sm:scale-100'}`}
+                className={`bg-white text-black shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] origin-top transition-transform duration-500 relative ${isPrintMode ? 'scale-100' : 'scale-[0.85] sm:scale-100'}`}
                 style={{
                     width: '210mm',
                     minHeight: '297mm',
                     display: 'block',
-                    position: 'relative',
                     boxSizing: 'border-box'
                 }}
             >
+                {/* Page Break Simulation Lines (only in preview) */}
+                {!isPrintMode && (
+                    <div className="absolute inset-0 pointer-events-none z-50">
+                        <div className="h-[297mm] border-b-2 border-dashed border-indigo-500/10 w-full relative">
+                            <span className="absolute bottom-1 right-2 text-[8px] font-black text-indigo-500/20 uppercase tracking-widest">Fim da Página 1</span>
+                        </div>
+                        <div className="h-[297mm] border-b-2 border-dashed border-indigo-500/10 w-full relative">
+                            <span className="absolute bottom-1 right-2 text-[8px] font-black text-indigo-500/20 uppercase tracking-widest">Fim da Página 2</span>
+                        </div>
+                        <div className="h-[297mm] border-b-2 border-dashed border-indigo-500/10 w-full relative">
+                            <span className="absolute bottom-1 right-2 text-[8px] font-black text-indigo-500/20 uppercase tracking-widest">Fim da Página 3</span>
+                        </div>
+                    </div>
+                )}
                 <div style={{
                     paddingTop: '25mm',
                     paddingBottom: '20mm',
@@ -642,50 +655,49 @@ export const ContractPreview = ({ data }) => {
                     flexDirection: 'column',
                     boxSizing: 'border-box'
                 }}>
-                    {/* ── STATUS STAMPS (automatic by phase) ── */}
                     <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
                         {/* RASCUNHO — faint diagonal watermark */}
                         {data.status === 'draft' && (
                             <p style={{
-                                fontSize: '90pt', fontWeight: 900, textTransform: 'uppercase',
-                                transform: 'rotate(-35deg)', color: 'rgba(156,163,175,0.13)',
-                                letterSpacing: '0.05em', userSelect: 'none', whiteSpace: 'nowrap',
+                                fontSize: '100pt', fontWeight: 900, textTransform: 'uppercase',
+                                transform: 'rotate(-40deg)', color: 'rgba(156,163,175,0.08)',
+                                letterSpacing: '0.1em', userSelect: 'none', whiteSpace: 'nowrap',
                             }}>RASCUNHO</p>
                         )}
                         {/* EM REVISÃO — amber dashed circle stamp */}
                         {data.status === 'pending' && (
                             <div style={{
-                                transform: 'rotate(-12deg)',
-                                border: '3pt dashed rgba(245,158,11,0.15)',
-                                borderRadius: '50%', padding: '18mm',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                transform: 'rotate(-15deg)',
+                                border: '4pt double rgba(245,158,11,0.2)',
+                                borderRadius: '50%', padding: '15mm',
+                                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                                outline: '2pt solid rgba(245,158,11,0.1)', outlineOffset: '2mm'
                             }}>
                                 <p style={{
-                                    fontSize: '38pt', fontWeight: 900, textTransform: 'uppercase',
-                                    color: 'rgba(245,158,11,0.12)', letterSpacing: '0.12em',
-                                    userSelect: 'none', whiteSpace: 'nowrap',
-                                }}>EM REVISÃO</p>
+                                    fontSize: '28pt', fontWeight: 900, textTransform: 'uppercase',
+                                    color: 'rgba(245,158,11,0.2)', letterSpacing: '0.1em',
+                                    userSelect: 'none', whiteSpace: 'nowrap', margin: 0
+                                }}>REVISÃO</p>
+                                <p style={{
+                                    fontSize: '10pt', fontWeight: 700, textTransform: 'uppercase',
+                                    color: 'rgba(245,158,11,0.15)', letterSpacing: '0.2em',
+                                    userSelect: 'none', whiteSpace: 'nowrap', margin: 0
+                                }}>TÉCNICA</p>
                             </div>
                         )}
-                        {/* FINALIZADO — clean, barely-there */}
-                        {data.status === 'final' && (
-                            <p style={{
-                                fontSize: '60pt', fontWeight: 900, textTransform: 'uppercase',
-                                transform: 'rotate(-30deg)', color: 'rgba(99,102,241,0.07)',
-                                letterSpacing: '0.1em', userSelect: 'none', whiteSpace: 'nowrap',
-                            }}>FINALIZADO</p>
-                        )}
+                        {/* FINALIZADO — Documento limpo e oficial (no watermark) */}
+                        {data.status === 'final' && null}
                         {/* PAGO — bold emerald rectangle stamp */}
                         {data.status === 'paid' && (
                             <div style={{
-                                transform: 'rotate(-12deg)',
-                                border: '4pt solid rgba(16,185,129,0.15)',
-                                borderRadius: '4mm', padding: '6mm 14mm',
+                                transform: 'rotate(-10deg)',
+                                border: '6pt double rgba(16,185,129,0.25)',
+                                borderRadius: '2mm', padding: '5mm 12mm',
                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                             }}>
                                 <p style={{
-                                    fontSize: '52pt', fontWeight: 900, textTransform: 'uppercase',
-                                    color: 'rgba(16,185,129,0.13)', letterSpacing: '0.15em',
+                                    fontSize: '60pt', fontWeight: 950, textTransform: 'uppercase',
+                                    color: 'rgba(16,185,129,0.25)', letterSpacing: '0.05em',
                                     userSelect: 'none', whiteSpace: 'nowrap',
                                 }}>PAGO</p>
                             </div>
@@ -702,7 +714,7 @@ export const ContractPreview = ({ data }) => {
                     </div>
                     
                     <div className="mt-12 pt-4 border-t border-gray-100 flex justify-between items-center opacity-30 text-[7pt] font-bold uppercase tracking-widest text-gray-400 break-inside-avoid">
-                        <p>Documento Gerado via Papel Passado &middot; ISO 216</p>
+                        <p>Documento Gerado via paper-contracts &middot; ISO 216</p>
                         <p>Thomas Eduardo <span style={{ color: data.accentColor }}>@devthomas</span></p>
                     </div>
                 </div>

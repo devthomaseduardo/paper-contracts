@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "name": "paper-contracts",
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    },
+    {
+      "src": "backend/src/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/src/index.js"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "frontend/dist/assets/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/dist/$1",
+      "check": true
+    },
+    {
+      "src": "/(.*)",
+      "status": 200,
+      "dest": "frontend/dist/index.html"
+    }
+  ]
+}

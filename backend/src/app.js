@@ -6,6 +6,7 @@ import { config } from './config.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { openApiSpec } from './openapi.js';
 import { aiRouter } from './routes/ai.js';
+import { clientsRouter } from './routes/clients.js';
 
 export function createApp() {
   const app = express();
@@ -36,6 +37,7 @@ export function createApp() {
   });
 
   v1.use('/ai', aiRouter);
+  v1.use('/clients', clientsRouter);
 
   app.use('/api/v1', v1);
 

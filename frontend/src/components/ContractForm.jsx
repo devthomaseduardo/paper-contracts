@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Sparkles, Plus, Trash2, Bot, Eraser, ChevronDown, ChevronUp, Briefcase, User, Wallet, Scale, PenTool, Image as ImageIcon, Globe, Smartphone, Wrench, Zap, Infinity, Palette, AlertTriangle, Lightbulb, Info, UserPlus, Users, ShieldCheck, MapPin, Phone, Linkedin, Github, Link, Calendar } from 'lucide-react';
+import { Sparkles, Plus, Trash2, Bot, Eraser, Save, ChevronDown, ChevronUp, Briefcase, User, Wallet, Scale, PenTool, Image as ImageIcon, Globe, Smartphone, Wrench, Zap, Infinity, Palette, AlertTriangle, Lightbulb, Info, UserPlus, Users, ShieldCheck, MapPin, Phone, Linkedin, Github, Link, Calendar, CheckCircle2 } from 'lucide-react';
 import { refineServiceDescription, generateLegalClause, analyzeRisks, generateTimeline } from '../services/api';
 
 const sectionHeaderClasses = {
@@ -123,7 +123,7 @@ const Input = ({ label, value, onChange, placeholder, className = "", icon: Icon
         value={value || ''}
         onChange={onChange}
         placeholder={placeholder}
-        className={`w-full bg-slate-900/30 border border-slate-800/60 text-slate-200 text-sm ${Icon ? 'pl-11' : 'px-4'} py-3 rounded-2xl focus:outline-none focus:border-indigo-500/40 focus:bg-slate-900/60 focus:ring-4 focus:ring-indigo-500/5 transition-all duration-300 placeholder:text-slate-700 font-medium`}
+        className={`w-full bg-slate-900/30 border border-slate-800/60 text-slate-200 text-xs sm:text-sm ${Icon ? 'pl-10 sm:pl-11' : 'px-4'} py-2.5 sm:py-3 rounded-xl sm:rounded-2xl focus:outline-none focus:border-indigo-500/40 focus:bg-slate-900/60 focus:ring-4 focus:ring-indigo-500/5 transition-all duration-300 placeholder:text-slate-700 font-medium`}
       />
     </div>
   </div>
@@ -221,7 +221,7 @@ const TextArea = ({ label, value, onChange, placeholder, className = "", maxLeng
 
 
 
-export const ContractForm = ({ data, onChange, onReset, clientProfiles = [], onSaveClient, onDeleteClient }) => {
+export const ContractForm = ({ data, onChange, onReset, clientProfiles = [], onSaveClient, onDeleteClient, onNotify }) => {
   const [activeSection, setActiveSection] = useState('parties');
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [isClauseLoading, setIsClauseLoading] = useState(false);
@@ -229,6 +229,8 @@ export const ContractForm = ({ data, onChange, onReset, clientProfiles = [], onS
   const [isTimelineLoading, setIsTimelineLoading] = useState(false);
   const [isCepLoading, setIsCepLoading] = useState(false);
   const [cepError, setCepError] = useState('');
+
+  const notify = (msg, type = 'success') => onNotify ? onNotify(msg, type) : alert(msg);
   
   // Local inputs
   const [newService, setNewService] = useState('');
@@ -432,32 +434,34 @@ export const ContractForm = ({ data, onChange, onReset, clientProfiles = [], onS
       <button
         type="button"
         onClick={() => setActiveSection(active ? null : id)}
-        className={`w-full flex items-center justify-between p-5 rounded-3xl border-2 text-left transition-all duration-700 hover:shadow-glow group relative overflow-hidden ${
+        className={`w-full flex items-center justify-between p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl border-2 text-left transition-all duration-700 hover:shadow-glow group relative overflow-hidden ${
           active 
             ? 'bg-slate-900 border-indigo-500/50 shadow-2xl shadow-indigo-500/10 scale-[1.01]' 
             : 'bg-slate-950/40 border-slate-800/40 hover:border-slate-700 hover:bg-slate-900/60'
         }`}
       >
         {active && (
-            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-transparent pointer-events-none" />
+           <div className="absolute inset-0 bg-indigo-500/5 animate-pulse" />
         )}
-        <div className="flex items-center gap-5 min-w-0 relative z-10">
-          <div className={`p-3 rounded-2xl transition-all duration-500 ${active ? 'bg-indigo-600 shadow-lg shadow-indigo-600/40 rotate-6' : 'bg-slate-900 group-hover:bg-slate-800'}`}>
-            <Icon size={20} className={active ? 'text-white' : 'text-slate-500 group-hover:text-indigo-400'} />
+        <div className="flex items-center gap-3 sm:gap-4 relative z-10">
+          <div className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl transition-all duration-500 ${active ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/40' : 'bg-slate-900 text-slate-500 group-hover:text-slate-300'}`}>
+            <Icon size={18} className="sm:w-5 sm:h-5" />
           </div>
-          <div className="flex flex-col">
-            <span className={`font-black text-[10px] uppercase tracking-[0.2em] mb-0.5 transition-colors ${active ? 'text-indigo-400' : 'text-slate-600'}`}>Seção</span>
-            <span className={`font-bold text-sm tracking-tight transition-colors ${active ? 'text-white' : 'text-slate-400'}`}>{title}</span>
+          <div>
+            <h3 className={`font-black text-xs sm:text-sm uppercase tracking-[0.1em] sm:tracking-[0.2em] ${active ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'}`}>{title}</h3>
+            {active && <p className="text-[9px] sm:text-[10px] text-indigo-300/60 font-medium mt-0.5">Configurações desta seção</p>}
           </div>
         </div>
-        <ChevronDown size={18} className={`text-slate-600 transition-transform duration-700 ${active ? 'rotate-180 text-indigo-400' : 'group-hover:text-slate-400'}`} />
+        <div className={`p-1.5 sm:p-2 rounded-lg transition-all duration-500 ${active ? 'bg-indigo-500/10 text-indigo-400 rotate-180' : 'bg-slate-900 text-slate-700'}`}>
+          <ChevronDown size={14} className="sm:w-4 sm:h-4" />
+        </div>
       </button>
     );
   };
 
   return (
     <>
-    <div className="p-6 pb-32 space-y-4 max-w-4xl mx-auto">
+    <div className="p-4 sm:p-6 pb-32 space-y-4 max-w-4xl mx-auto">
       <div className="flex flex-col gap-4 mb-2 rounded-2xl border border-slate-800 bg-slate-900/40 p-4 backdrop-blur-sm">
           <div className="flex flex-col gap-1">
              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Fase do Documento</h3>
@@ -558,34 +562,50 @@ export const ContractForm = ({ data, onChange, onReset, clientProfiles = [], onS
 
               {data.type !== 'cv' && (
                 <div className="md:col-span-2 mt-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <label className="text-xs text-emerald-400 font-bold uppercase block">Destinatário (cliente)</label>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
+                    <label className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.2em]">Destinatário (Cliente)</label>
                     
-                    {clientProfiles.length > 0 && (
-                      <div className="flex items-center gap-2">
-                        <Users size={14} className="text-slate-500" />
-                        <select 
-                          className="bg-slate-800 border-none text-[10px] text-slate-300 rounded px-2 py-1 outline-none"
-                          onChange={(e) => {
-                            const client = clientProfiles.find(c => c.clientDoc === e.target.value);
-                            if (client) {
-                              onChange({
-                                ...data,
-                                clientName: client.clientName,
-                                clientDoc: client.clientDoc,
-                                clientAddress: client.clientAddress,
-                                clientZipPhone: client.clientZipPhone
-                              });
-                            }
-                          }}
-                        >
-                          <option value="">Carregar Perfil...</option>
-                          {clientProfiles.map(c => (
-                            <option key={c.clientDoc} value={c.clientDoc}>{c.clientName}</option>
-                          ))}
-                        </select>
-                      </div>
-                    )}
+                    <div className="flex items-center gap-2">
+                      {clientProfiles.length > 0 && (
+                        <div className="flex items-center gap-2 bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-800">
+                          <Users size={12} className="text-emerald-500" />
+                          <select 
+                            className="bg-transparent border-none text-[10px] font-bold text-slate-300 outline-none cursor-pointer"
+                            onChange={(e) => {
+                              const client = clientProfiles.find(c => c.clientDoc === e.target.value);
+                              if (client) {
+                                onChange({
+                                  ...data,
+                                  clientName: client.clientName,
+                                  clientDoc: client.clientDoc,
+                                  clientAddress: client.clientAddress,
+                                  clientZipPhone: client.clientZipPhone
+                                });
+                              }
+                            }}
+                          >
+                            <option value="">BANCO DE CLIENTES</option>
+                            {clientProfiles.map(c => (
+                              <option key={c.clientDoc} value={c.clientDoc}>{c.clientName}</option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+                      <button 
+                        onClick={() => {
+                          if (!data.clientName || !data.clientDoc) return notify('Preencha pelo menos Nome e Documento do cliente.', 'error');
+                          onSaveClient({
+                            clientName: data.clientName,
+                            clientDoc: data.clientDoc,
+                            clientAddress: data.clientAddress,
+                            clientZipPhone: data.clientZipPhone
+                          });
+                        }}
+                        className="text-[9px] font-black bg-emerald-500/10 text-emerald-400 px-3 py-1.5 rounded-xl border border-emerald-500/20 hover:bg-emerald-500 hover:text-black transition-all flex items-center gap-2"
+                      >
+                        <Save size={10} /> SALVAR NESTE BANCO
+                      </button>
+                    </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-4 pl-3 border-l border-slate-700">
@@ -887,9 +907,58 @@ export const ContractForm = ({ data, onChange, onReset, clientProfiles = [], onS
                 <div className="p-5 bg-slate-900/30 border-l-2 border-amber-500 rounded-r-xl grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-4 duration-300">
                     {data.type === 'contract' && (
                         <>
-                            <Input label="Valor Total (R$)" value={data.valueTotal} onChange={(e) => handleChange('valueTotal', e.target.value)} />
-                            <Input label="Valor Entrada (R$)" value={data.valueEntry} onChange={(e) => handleChange('valueEntry', e.target.value)} />
-                            <Input label="Valor Saldo (R$)" value={data.valueBalance} onChange={(e) => handleChange('valueBalance', e.target.value)} />
+                            <div className="space-y-4">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <Input 
+                                        label="Valor Total (R$)" 
+                                        value={data.valueTotal} 
+                                        onChange={(e) => {
+                                            const total = e.target.value;
+                                            handleChange('valueTotal', total);
+                                            const t = parseFloat(total.replace(',', '.') || '0');
+                                            const e_val = parseFloat(data.valueEntry.replace(',', '.') || '0');
+                                            handleChange('valueBalance', (t - e_val).toString().replace('.', ','));
+                                        }} 
+                                    />
+                                    <Input 
+                                        label="Entrada (Sinal)" 
+                                        value={data.valueEntry} 
+                                        onChange={(e) => {
+                                            const entry = e.target.value;
+                                            handleChange('valueEntry', entry);
+                                            const t = parseFloat(data.valueTotal.replace(',', '.') || '0');
+                                            const ev = parseFloat(entry.replace(',', '.') || '0');
+                                            handleChange('valueBalance', (t - ev).toString().replace('.', ','));
+                                        }} 
+                                    />
+                                    <Input label="Saldo" value={data.valueBalance} onChange={(e) => handleChange('valueBalance', e.target.value)} />
+                                </div>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <button 
+                                        onClick={() => {
+                                            const t = parseFloat(data.valueTotal.replace(',', '.') || '0');
+                                            const half = (t / 2).toString().replace('.', ',');
+                                            handleChange('valueEntry', half);
+                                            handleChange('valueBalance', half);
+                                            notify('Valores divididos 50/50!');
+                                        }}
+                                        className="text-[10px] font-black bg-indigo-500/20 text-indigo-400 px-3 py-2.5 rounded-xl border border-indigo-500/30 hover:bg-indigo-500 hover:text-white transition-all active:scale-95"
+                                    >
+                                        DIVIDIR 50/50
+                                    </button>
+                                    <button 
+                                        onClick={() => {
+                                            const t = parseFloat(data.valueTotal.replace(',', '.') || '0');
+                                            handleChange('valueEntry', (t * 0.3).toFixed(2).replace('.', ','));
+                                            handleChange('valueBalance', (t * 0.7).toFixed(2).replace('.', ','));
+                                            notify('Sinal de 30% aplicado!');
+                                        }}
+                                        className="text-[10px] font-black bg-slate-800 text-slate-400 px-3 py-2.5 rounded-xl border border-slate-700 hover:bg-slate-700 hover:text-white transition-all active:scale-95"
+                                    >
+                                        30% SINAL
+                                    </button>
+                                </div>
+                            </div>
                             <DateInput
                                 label="Data do Saldo"
                                 value={data.balanceDate}
@@ -971,12 +1040,12 @@ export const ContractForm = ({ data, onChange, onReset, clientProfiles = [], onS
                 <div className="p-5 bg-slate-900/30 border-l-2 border-rose-500 rounded-r-xl space-y-4 animate-in fade-in slide-in-from-top-4 duration-300">
                     <Input label="Foro (Cidade-UF)" value={data.forumCity} onChange={e => handleChange('forumCity', e.target.value)} />
                     
-                    <div className="bg-slate-950 p-4 rounded-xl border border-rose-500/20">
+                    <div className="bg-slate-900 p-4 rounded-xl border border-rose-500/20">
                          <div className="flex items-center gap-2 mb-3 text-rose-400">
                              <Bot size={18} /> <span className="text-sm font-bold uppercase">Gerador de Cláusulas</span>
                          </div>
                          <div className="flex gap-2 mb-3">
-                            <input className="flex-1 bg-slate-900 border border-slate-700 rounded px-4 py-2 text-sm" placeholder="Ex: Multa por atraso de pagamento de 10%..." value={clausePrompt} onChange={e => setClausePrompt(e.target.value)} />
+                            <input className="flex-1 bg-slate-950 border border-slate-700 rounded px-4 py-2 text-sm" placeholder="Ex: Multa por atraso de pagamento de 10%..." value={clausePrompt} onChange={e => setClausePrompt(e.target.value)} />
                             <button onClick={handleGenerateClause} disabled={isClauseLoading} className="bg-rose-500 hover:bg-rose-600 px-4 rounded text-white font-bold text-xs uppercase tracking-wide transition-colors">
                                 {isClauseLoading ? '...' : 'Gerar'}
                             </button>
@@ -1064,7 +1133,7 @@ export const ContractForm = ({ data, onChange, onReset, clientProfiles = [], onS
                      )}
                  </div>
                  {data.contractorSignature && (
-                     <div className="mt-4 p-4 bg-white rounded-lg inline-block">
+                     <div className="mt-4 p-4 bg-slate-800 rounded-lg inline-block border border-slate-700">
                          <img src={data.contractorSignature} alt="Signature Preview" className="h-16 object-contain" />
                      </div>
                  )}
@@ -1080,7 +1149,7 @@ export const ContractForm = ({ data, onChange, onReset, clientProfiles = [], onS
             <ShieldCheck size={14} className="text-indigo-400" />
             <span className="text-xs font-bold text-white">Thomas Eduardo <span className="text-indigo-400">@devthomas</span></span>
         </div>
-        <p className="text-[9px] text-slate-600 mt-1">&copy; {new Date().getFullYear()} Papel Passado v2.5 | by devthomas</p>
+        <p className="text-[9px] text-slate-600 mt-1">&copy; {new Date().getFullYear()} paper-contracts v2.5 | by devthomas</p>
     </footer>
     </>
   );
