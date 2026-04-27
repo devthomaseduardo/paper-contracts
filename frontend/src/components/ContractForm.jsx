@@ -1024,31 +1024,31 @@ export const ContractForm = ({ data, onChange, onReset, clientProfiles = [], onS
          <div className="space-y-2">
             <SectionHeader id="legal" title="Cláusulas & IA Jurídica" icon={Scale} />
             {activeSection === 'legal' && (
-                <div className="p-5 bg-slate-900/30 border-l-2 border-rose-500 rounded-r-xl space-y-4 animate-in fade-in slide-in-from-top-4 duration-300">
+                <div className="p-6 bg-midnight-lighter/20 border-l-2 border-rose-500 rounded-r-[2rem] space-y-6 animate-in fade-in slide-in-from-top-4 duration-500">
                     <Input label="Foro (Cidade-UF)" value={data.forumCity} onChange={e => handleChange('forumCity', e.target.value)} />
                     
-                    <div className="bg-slate-900 p-4 rounded-xl border border-rose-500/20">
-                         <div className="flex items-center gap-2 mb-3 text-rose-400">
-                             <Bot size={18} /> <span className="text-sm font-bold uppercase">Gerador de Cláusulas</span>
+                    <div className="bg-midnight p-5 rounded-2xl border border-white/5 shadow-sm">
+                         <div className="flex items-center gap-2 mb-4 text-rose-500">
+                             <Bot size={18} /> <span className="text-[10px] font-black uppercase tracking-widest">Gerador de Cláusulas</span>
                          </div>
-                         <div className="flex gap-2 mb-3">
-                            <input className="flex-1 bg-slate-950 border border-slate-700 rounded px-4 py-2 text-sm" placeholder="Ex: Multa por atraso de pagamento de 10%..." value={clausePrompt} onChange={e => setClausePrompt(e.target.value)} />
-                            <button onClick={handleGenerateClause} disabled={isClauseLoading} className="bg-rose-500 hover:bg-rose-600 px-4 rounded text-white font-bold text-xs uppercase tracking-wide transition-colors">
-                                {isClauseLoading ? '...' : 'Gerar'}
+                         <div className="flex gap-2 flex-col sm:flex-row">
+                            <input className="flex-1 bg-midnight-lighter border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:border-rose-500/50 outline-none transition-all placeholder:text-slate-700 font-medium" placeholder="Ex: Multa por atraso de pagamento de 10%..." value={clausePrompt} onChange={e => setClausePrompt(e.target.value)} />
+                            <button onClick={handleGenerateClause} disabled={isClauseLoading} className="bg-rose-500 hover:bg-rose-600 px-6 py-3 rounded-xl text-white font-black text-[10px] uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50 shadow-lg shadow-rose-500/20">
+                                {isClauseLoading ? '...' : 'GERAR'}
                             </button>
                          </div>
                     </div>
                     
                     <TextArea label="Cláusulas Adicionais / Observações" value={data.extraClauses} onChange={e => handleChange('extraClauses', e.target.value)} className="min-h-[150px] font-mono text-sm" />
 
-                    <div className="pt-4 border-t border-slate-800">
+                    <div className="pt-6 border-t border-white/5">
                          <button 
                             onClick={handleAnalyzeRisks} 
                             disabled={isRiskLoading}
-                            className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-xs uppercase tracking-widest rounded-xl border border-amber-500/20 flex items-center justify-center gap-3 transition-all active:scale-[0.98]"
+                            className="w-full py-4 bg-midnight-lighter/50 hover:bg-midnight-lighter text-gold font-black text-[10px] uppercase tracking-[0.2em] rounded-xl border border-gold/20 flex items-center justify-center gap-3 transition-all shadow-lg active:scale-[0.98]"
                          >
                             {isRiskLoading ? (
-                                <div className="animate-spin rounded-full h-4 w-4 border-2 border-amber-500 border-t-transparent" />
+                                <div className="animate-spin rounded-full h-4 w-4 border-2 border-gold border-t-transparent" />
                             ) : <AlertTriangle size={16} />}
                             {isRiskLoading ? 'ANALISANDO DOCUMENTO...' : 'ANALISAR RISCOS COM IA'}
                          </button>
@@ -1080,25 +1080,27 @@ export const ContractForm = ({ data, onChange, onReset, clientProfiles = [], onS
       <div className="space-y-2">
           <SectionHeader id="style" title="Cores & Identidade" icon={Palette} />
           {activeSection === 'style' && (
-              <div className="p-5 bg-slate-900/30 border-l-2 border-purple-500 rounded-r-xl space-y-4 animate-in fade-in slide-in-from-top-4 duration-300">
+              <div className="p-6 bg-midnight-lighter/20 border-l-2 border-azure rounded-r-[2rem] space-y-6 animate-in fade-in slide-in-from-top-4 duration-500">
                   <div className="grid grid-cols-5 md:grid-cols-10 gap-3">
-                      {['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#06b6d4', '#ec4899', '#8b5cf6', '#1e293b', '#000000', '#475569'].map(c => (
+                      {['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4', '#ec4899', '#8b5cf6', '#05070a', '#c5a059', '#475569'].map(c => (
                           <button
                             key={c}
                             onClick={() => handleChange('accentColor', c)}
-                            className={`w-full aspect-square rounded-full border-2 transition-transform hover:scale-110 ${data.accentColor === c ? 'border-white' : 'border-transparent'}`}
+                            className={`w-full aspect-square rounded-full border-2 transition-all hover:scale-110 shadow-lg ${data.accentColor === c ? 'border-white scale-110' : 'border-white/5'}`}
                             style={{ backgroundColor: c }}
                           />
                       ))}
                   </div>
-                  <div className="flex items-center gap-4">
-                      <input 
-                        type="color" 
-                        value={data.accentColor} 
-                        onChange={(e) => handleChange('accentColor', e.target.value)}
-                        className="w-10 h-10 rounded cursor-pointer bg-transparent"
-                      />
-                      <span className="text-xs text-slate-400 font-mono">{data.accentColor.toUpperCase()}</span>
+                  <div className="flex items-center gap-4 bg-midnight p-4 rounded-2xl border border-white/5 w-fit">
+                      <div className="relative w-10 h-10 overflow-hidden rounded-full border border-white/10">
+                        <input 
+                            type="color" 
+                            value={data.accentColor} 
+                            onChange={(e) => handleChange('accentColor', e.target.value)}
+                            className="absolute -inset-2 w-14 h-14 cursor-pointer bg-transparent"
+                        />
+                      </div>
+                      <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest">{data.accentColor.toUpperCase()}</span>
                   </div>
               </div>
           )}
@@ -1108,20 +1110,21 @@ export const ContractForm = ({ data, onChange, onReset, clientProfiles = [], onS
       <div className="space-y-2">
          <SectionHeader id="signature" title="Assinatura Digital" icon={PenTool} />
          {activeSection === 'signature' && (
-             <div className="p-5 bg-slate-900/30 border-l-2 border-sky-500 rounded-r-xl space-y-4 animate-in fade-in slide-in-from-top-4 duration-300">
-                 <p className="text-xs text-slate-400 mb-2">Faça upload de uma imagem da sua assinatura (PNG transparente recomendado).</p>
+             <div className="p-6 bg-midnight-lighter/20 border-l-2 border-gold rounded-r-[2rem] space-y-6 animate-in fade-in slide-in-from-top-4 duration-500">
+                 <p className="text-[10px] text-slate-500 font-medium tracking-wide">Upload de assinatura digitalizada (PNG transparente recomendado).</p>
                  <div className="flex items-center gap-4">
-                     <button onClick={() => signatureInputRef.current?.click()} className="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-sm border border-slate-600 transition-colors">
-                         Carregar Assinatura
+                     <button onClick={() => signatureInputRef.current?.click()} className="bg-midnight-lighter hover:bg-white/5 text-white px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest border border-white/5 transition-all shadow-lg active:scale-95">
+                         CARREGAR ARQUIVO
                      </button>
                      <input type="file" ref={signatureInputRef} onChange={(e) => handleImageUpload(e, 'contractorSignature')} className="hidden" accept="image/*" />
                      {data.contractorSignature && (
-                         <button onClick={() => handleChange('contractorSignature', null)} className="text-red-400 text-sm hover:underline">Remover</button>
+                         <button onClick={() => handleChange('contractorSignature', null)} className="text-rose-500 text-[10px] font-black uppercase tracking-widest hover:underline px-2">Remover</button>
                      )}
                  </div>
                  {data.contractorSignature && (
-                     <div className="mt-4 p-4 bg-slate-800 rounded-lg inline-block border border-slate-700">
-                         <img src={data.contractorSignature} alt="Signature Preview" className="h-16 object-contain" />
+                     <div className="mt-4 p-6 bg-white rounded-[2rem] inline-block shadow-2xl border border-white/10 group relative">
+                         <img src={data.contractorSignature} alt="Signature Preview" className="h-16 object-contain mix-blend-multiply" />
+                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors rounded-[2rem]" />
                      </div>
                  )}
              </div>
@@ -1130,13 +1133,13 @@ export const ContractForm = ({ data, onChange, onReset, clientProfiles = [], onS
 
     </div>
     
-    <footer className="mt-8 pt-8 pb-12 border-t border-slate-800/50 flex flex-col items-center gap-2">
-        <p className="text-[10px] text-slate-500 uppercase tracking-widest font-medium">Powered by</p>
-        <div className="flex items-center gap-2 bg-slate-900/80 px-4 py-2 rounded-full border border-slate-800">
-            <ShieldCheck size={14} className="text-indigo-400" />
-            <span className="text-xs font-bold text-white">Thomas Eduardo <span className="text-indigo-400">@devthomas</span></span>
+    <footer className="mt-12 pt-12 pb-24 border-t border-white/5 flex flex-col items-center gap-4">
+        <p className="text-[10px] text-slate-600 uppercase tracking-[0.4em] font-black">Powered by</p>
+        <div className="flex items-center gap-3 bg-midnight px-6 py-3 rounded-2xl border border-white/5 shadow-2xl">
+            <ShieldCheck size={16} className="text-azure" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-white">Thomas Eduardo <span className="text-azure opacity-50 ml-1">@devthomas</span></span>
         </div>
-        <p className="text-[9px] text-slate-600 mt-1">&copy; {new Date().getFullYear()} paper-contracts v2.5 | by devthomas</p>
+        <p className="text-[9px] text-slate-700 mt-2 font-mono uppercase tracking-[0.2em]">&copy; {new Date().getFullYear()} Paper-Contracts Premium v3.0</p>
     </footer>
     </>
   );
