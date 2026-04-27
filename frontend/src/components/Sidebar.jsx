@@ -1,49 +1,57 @@
 import React from 'react';
 import {
   FileText,
+  Lock,
   Calculator,
-  UserCircle,
-  ScrollText,
-  ShieldCheck,
-  ChevronRight,
   Receipt,
   FileBadge,
-  Lock,
-  Send,
+  ScrollText,
   PenTool,
+  Send,
+  UserCircle,
+  X,
+  ShieldCheck,
 } from 'lucide-react';
 
-export const Sidebar = ({ currentType, onSelect }) => {
+export const Sidebar = ({ currentType, onSelect, isOpen, onClose }) => {
   const menu = [
-    { id: 'contract', label: 'Contrato', icon: FileText, color: 'text-indigo-400', bg: 'bg-indigo-400/10' },
-    { id: 'nda', label: 'NDA / Sigilo', icon: Lock, color: 'text-rose-400', bg: 'bg-rose-400/10' },
-    { id: 'quote', label: 'Orçamento', icon: Calculator, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
-    { id: 'invoice', label: 'Nota Fiscal', icon: Receipt, color: 'text-teal-400', bg: 'bg-teal-400/10' },
-    { id: 'declaration', label: 'Declaração', icon: FileBadge, color: 'text-amber-400', bg: 'bg-amber-400/10' },
-    { id: 'letter', label: 'Timbrado', icon: ScrollText, color: 'text-slate-400', bg: 'bg-slate-400/10' },
-    { id: 'letterhead', label: 'Papel Timbrado', icon: PenTool, color: 'text-cyan-400', bg: 'bg-cyan-400/10' },
-    { id: 'coverLetter', label: 'Carta Apresentação', icon: Send, color: 'text-purple-400', bg: 'bg-purple-400/10' },
-    { id: 'cv', label: 'Currículo', icon: UserCircle, color: 'text-sky-400', bg: 'bg-sky-400/10' },
+    { id: 'contract', label: 'Contrato Social', icon: FileText, desc: 'Formalização de parcerias' },
+    { id: 'nda', label: 'NDA / Sigilo', icon: Lock, desc: 'Acordo de confidencialidade' },
+    { id: 'quote', label: 'Orçamento', icon: Calculator, desc: 'Proposta comercial detalhada' },
+    { id: 'invoice', label: 'Nota Fiscal', icon: Receipt, desc: 'Comprovante de pagamento' },
+    { id: 'declaration', label: 'Declaração', icon: FileBadge, desc: 'Afirmação de fatos oficiais' },
+    { id: 'letter', label: 'Papel Timbrado', icon: ScrollText, desc: 'Comunicação institucional' },
+    { id: 'letterhead', label: 'Timbrado Pro', icon: PenTool, desc: 'Identidade visual avançada' },
+    { id: 'coverLetter', label: 'Carta de Apresentação', icon: Send, desc: 'Introdução profissional' },
+    { id: 'cv', label: 'Currículo Moderno', icon: UserCircle, desc: 'Apresentação de carreira' },
   ];
 
   return (
-    <div className="w-20 lg:w-72 bg-slate-950/80 backdrop-blur-xl border-r border-slate-800/50 flex flex-col h-full shrink-0 transition-all duration-300 z-50">
-      <div className="h-24 flex items-center justify-center lg:justify-start lg:px-10 border-b border-slate-800/30">
-        <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-2xl shadow-indigo-500/10 shrink-0 relative group cursor-pointer overflow-hidden border border-slate-200">
-          <img src="/paper‑contracts.png" alt="Logo" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-          <div className="absolute inset-0 bg-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        </div>
-        <div className="ml-5 hidden lg:block overflow-hidden">
-            <span className="bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent italic">paper-contracts</span>
-          <div className="flex items-center gap-2 mt-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <p className="text-[10px] text-slate-500 font-bold tracking-widest uppercase">by devthomas</p>
+    <div className={`fixed inset-y-0 left-0 z-[60] w-full max-w-[300px] bg-midnight-deep border-r border-white/5 flex flex-col transition-transform duration-500 ease-in-out lg:relative lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      {/* Mobile Close Button */}
+      <button 
+        onClick={onClose}
+        className="absolute right-4 top-6 lg:hidden text-slate-500 hover:text-white transition-colors"
+      >
+        <X size={24} />
+      </button>
+
+      {/* Header / Logo */}
+      <div className="h-24 px-8 flex items-center border-b border-white/5">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-azure to-azure-dark flex items-center justify-center shadow-lg shadow-azure/20">
+            <FileText size={20} className="text-white" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm font-black tracking-tighter text-white uppercase">Paper Contracts</span>
+            <span className="text-[10px] text-slate-500 font-bold tracking-widest uppercase">Editorial Suite</span>
           </div>
         </div>
       </div>
 
-      <nav className="flex-1 p-5 space-y-1.5 overflow-y-auto">
-        <p className="hidden lg:block px-4 text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] mb-4 mt-4">Documentos</p>
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto p-6 space-y-2 custom-scrollbar">
+        <p className="px-4 text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] mb-4">Document Types</p>
         {menu.map((item) => {
           const isActive = currentType === item.id;
           const Icon = item.icon;
@@ -51,38 +59,46 @@ export const Sidebar = ({ currentType, onSelect }) => {
           return (
             <button
               key={item.id}
-              type="button"
-              onClick={() => onSelect(item.id)}
-              className={`w-full flex items-center gap-4 p-3.5 rounded-2xl transition-all duration-500 group relative overflow-hidden border-2 ${
-                isActive
-                  ? 'bg-indigo-500/10 border-indigo-500/50 text-white shadow-[0_0_20px_rgba(99,102,241,0.1)] scale-[1.02]'
-                  : 'border-transparent text-slate-500 hover:bg-slate-800/40 hover:text-slate-200'
+              onClick={() => {
+                onSelect(item.id);
+                if (window.innerWidth < 1024) onClose();
+              }}
+              className={`w-full group flex flex-col gap-1 p-4 rounded-2xl transition-all duration-300 relative ${
+                isActive 
+                  ? 'bg-white/5 border border-white/10' 
+                  : 'hover:bg-white/[0.02] border border-transparent'
               }`}
             >
-              <div className={`p-2.5 rounded-xl ${isActive ? 'bg-indigo-500 shadow-lg shadow-indigo-500/20' : 'bg-slate-900 group-hover:bg-slate-800'} transition-all duration-300`}>
-                <Icon size={18} className={`${isActive ? 'text-white' : 'text-slate-500 group-hover:text-indigo-400'}`} />
+              <div className="flex items-center gap-4">
+                <div className={`p-2 rounded-lg transition-colors duration-300 ${isActive ? 'bg-azure text-white' : 'bg-slate-900 text-slate-500 group-hover:text-azure-light'}`}>
+                  <Icon size={18} />
+                </div>
+                <div className="flex flex-col items-start">
+                  <span className={`text-sm font-bold tracking-tight ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'}`}>
+                    {item.label}
+                  </span>
+                  <span className="text-[10px] text-slate-600 group-hover:text-slate-500 transition-colors">
+                    {item.desc}
+                  </span>
+                </div>
               </div>
-              <span className={`font-semibold flex-1 text-left text-sm tracking-tight ${isActive ? 'text-white' : ''}`}>
-                {item.label}
-              </span>
+              
               {isActive && (
-                <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 shadow-[0_0_10px_rgba(129,140,248,0.8)]" />
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-azure shadow-[0_0_12px_rgba(59,130,246,0.8)]" />
               )}
             </button>
           );
         })}
       </nav>
 
-      <div className="p-6 border-t border-slate-800/30 hidden lg:block">
-        <div className="glass rounded-2xl p-5 border border-white/5 relative overflow-hidden group">
-          <div className="absolute -right-4 -top-4 w-20 h-20 bg-indigo-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
-          <div className="relative z-10">
-            <div className="flex items-center gap-2 mb-2">
-                <ShieldCheck size={14} className="text-emerald-400" />
-                <p className="font-bold text-slate-200 text-xs tracking-tight">Cloud Backup</p>
-            </div>
-            <p className="text-[10px] text-slate-500 leading-relaxed font-medium">Sua logo e preferências estão seguras no cache local.</p>
+      {/* Footer / Status */}
+      <div className="p-8 border-t border-white/5">
+        <div className="bg-white/[0.03] rounded-2xl p-4 border border-white/5">
+          <div className="flex items-center gap-3 mb-1">
+            <ShieldCheck size={14} className="text-azure" />
+            <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Local Security</span>
           </div>
+          <p className="text-[10px] text-slate-500 leading-relaxed font-medium">Dados armazenados localmente de forma segura.</p>
         </div>
       </div>
     </div>

@@ -175,82 +175,97 @@ const App = () => {
   };
 
   return (
-    <div className="h-screen bg-slate-950 text-slate-100 font-sans flex overflow-hidden">
+    <div className="h-screen bg-midnight text-slate-100 font-sans flex overflow-hidden selection:bg-azure/30">
+      {/* Mobile Backdrop */}
       {sidebarOpen && (
-        <div className="fixed inset-0 bg-black/80 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} aria-hidden />
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] lg:hidden animate-in fade-in duration-300" 
+          onClick={() => setSidebarOpen(false)} 
+        />
       )}
 
-      <div
-        className={`fixed inset-y-0 left-0 z-50 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:relative lg:translate-x-0 transition-transform duration-300`}
-      >
-        <Sidebar currentType={contractData.type} onSelect={handleTypeChange} />
-      </div>
+      <Sidebar 
+        currentType={contractData.type} 
+        onSelect={handleTypeChange} 
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
 
-      <div className="flex-1 flex flex-col h-full min-w-0 pb-20 md:pb-0">
-        <header className="h-16 md:h-20 glass flex items-center justify-between px-6 md:px-8 shrink-0 z-40 sticky top-0">
-          <div className="flex items-center gap-3">
+      <div className="flex-1 flex flex-col h-full min-w-0 pb-20 md:pb-0 relative">
+        <header className="h-16 md:h-24 premium-glass flex items-center justify-between px-6 md:px-12 shrink-0 z-40 sticky top-0 border-b border-white/5">
+          <div className="flex items-center gap-4">
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden text-white p-2 -ml-2 bg-slate-800/50 rounded-xl"
-              aria-label="Menu"
+              className="lg:hidden text-white p-2.5 -ml-2 bg-white/5 hover:bg-white/10 rounded-2xl transition-colors"
+              aria-label="Abrir Menu"
             >
               <Menu size={20} />
             </button>
             <div className="flex flex-col">
-              <h1 className="font-bold text-sm md:text-base bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent truncate max-w-[150px] md:max-w-none">
-                {docTitle()}
-              </h1>
-              <span className="text-[9px] text-indigo-400 font-bold uppercase tracking-widest md:hidden">Painel de Edição</span>
+              <div className="flex items-center gap-2">
+                <h1 className="font-black text-lg md:text-2xl text-white tracking-tighter">
+                  {docTitle()}
+                </h1>
+                <div className="hidden md:block px-2 py-0.5 rounded-md bg-azure/10 border border-azure/20">
+                  <span className="text-[10px] font-black text-azure uppercase tracking-widest">Active Draft</span>
+                </div>
+              </div>
+              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em] mt-0.5">Workspace &middot; Paper Contracts</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 md:gap-4">
+          <div className="flex items-center gap-3">
             {lastSaved && (
-              <span className="text-[10px] text-slate-500 hidden lg:flex items-center gap-1">
-                <Save size={10} aria-hidden /> {lastSaved.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
-              </span>
+              <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/5">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                  Auto-salvo às {lastSaved.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                </span>
+              </div>
             )}
 
             <button
               onClick={saveToHistory}
-              className="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 md:px-4 md:py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-indigo-600/20 active:scale-90"
+              className="group bg-azure hover:bg-azure-dark text-white px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2.5 shadow-xl shadow-azure/20 active:scale-95"
             >
-              <Save size={14} /> <span className="hidden md:inline">SALVAR</span>
+              <Save size={16} className="group-hover:scale-110 transition-transform" /> 
+              <span className="hidden md:inline">Salvar Documento</span>
+              <span className="md:hidden">Salvar</span>
             </button>
           </div>
         </header>
 
         {/* MOBILE BOTTOM NAV */}
-        <div className="fixed bottom-0 left-0 right-0 h-20 bg-slate-950/80 backdrop-blur-xl border-t border-slate-800 flex items-center justify-around px-6 z-50 md:hidden">
+        <div className="fixed bottom-0 left-0 right-0 h-20 bg-midnight-lighter/80 backdrop-blur-2xl border-t border-white/5 flex items-center justify-around px-8 z-50 md:hidden shadow-[0_-10px_40px_rgba(0,0,0,0.4)]">
             <button 
                 onClick={() => { setActiveTab('form'); setShowHistory(false); }}
-                className={`flex flex-col items-center gap-1 transition-all ${activeTab === 'form' && !showHistory ? 'text-indigo-400 scale-110' : 'text-slate-500'}`}
+                className={`flex flex-col items-center gap-1.5 transition-all ${activeTab === 'form' && !showHistory ? 'text-azure scale-105' : 'text-slate-500'}`}
             >
-                <div className={`p-2 rounded-xl ${activeTab === 'form' && !showHistory ? 'bg-indigo-500/10' : ''}`}>
-                    <FileText size={20} />
+                <div className={`p-2.5 rounded-xl transition-colors ${activeTab === 'form' && !showHistory ? 'bg-azure/10' : ''}`}>
+                    <FileText size={22} strokeWidth={activeTab === 'form' && !showHistory ? 2.5 : 2} />
                 </div>
-                <span className="text-[9px] font-bold uppercase tracking-tighter">Editar</span>
+                <span className="text-[10px] font-black uppercase tracking-widest">Editor</span>
             </button>
             
             <button 
                 onClick={() => { setActiveTab('preview'); setShowHistory(false); }}
-                className={`flex flex-col items-center gap-1 transition-all ${activeTab === 'preview' ? 'text-emerald-400 scale-110' : 'text-slate-500'}`}
+                className={`flex flex-col items-center gap-1.5 transition-all ${activeTab === 'preview' ? 'text-azure scale-105' : 'text-slate-500'}`}
             >
-                <div className={`p-2 rounded-xl ${activeTab === 'preview' ? 'bg-emerald-500/10' : ''}`}>
-                    <Eye size={20} />
+                <div className={`p-2.5 rounded-xl transition-colors ${activeTab === 'preview' ? 'bg-azure/10' : ''}`}>
+                    <Eye size={22} strokeWidth={activeTab === 'preview' ? 2.5 : 2} />
                 </div>
-                <span className="text-[9px] font-bold uppercase tracking-tighter">Ver PDF</span>
+                <span className="text-[10px] font-black uppercase tracking-widest">Visualizar</span>
             </button>
 
             <button 
                 onClick={() => setShowHistory(true)}
-                className={`flex flex-col items-center gap-1 transition-all ${showHistory ? 'text-purple-400 scale-110' : 'text-slate-500'}`}
+                className={`flex flex-col items-center gap-1.5 transition-all ${showHistory ? 'text-azure scale-105' : 'text-slate-500'}`}
             >
-                <div className={`p-2 rounded-xl ${showHistory ? 'bg-purple-500/10' : ''}`}>
-                    <History size={20} />
+                <div className={`p-2.5 rounded-xl transition-colors ${showHistory ? 'bg-azure/10' : ''}`}>
+                    <History size={22} strokeWidth={showHistory ? 2.5 : 2} />
                 </div>
-                <span className="text-[9px] font-bold uppercase tracking-tighter">Arquivos</span>
+                <span className="text-[10px] font-black uppercase tracking-widest">Arquivo</span>
             </button>
         </div>
 
@@ -282,43 +297,46 @@ const App = () => {
                 </div>
                 
                 {history.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-32 glass rounded-[2rem] border-dashed border-2 border-slate-800/50">
-                    <div className="p-4 bg-slate-900 rounded-2xl mb-4">
-                        <FileText size={32} className="text-slate-700" />
+                  <div className="flex flex-col items-center justify-center py-32 premium-glass rounded-[2.5rem] border-dashed border-2 border-white/5">
+                    <div className="p-5 bg-white/[0.03] rounded-3xl mb-6">
+                        <FileText size={40} className="text-slate-600" />
                     </div>
-                    <p className="text-slate-500 font-medium">Sua biblioteca está vazia.</p>
+                    <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Sua biblioteca está vazia</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {history.map(doc => (
-                      <div key={doc.id} className="glass group rounded-3xl p-6 hover:border-indigo-500/30 transition-all duration-500 relative overflow-hidden">
-                        <div className="absolute -right-10 -top-10 w-32 h-32 bg-indigo-500/5 rounded-full blur-3xl group-hover:bg-indigo-500/10 transition-colors" />
-                        <div className="flex justify-between items-start mb-4 relative z-10">
-                          <div className="flex flex-col gap-1.5 items-end">
-                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-indigo-400 bg-indigo-400/5 px-2.5 py-1 rounded-lg border border-indigo-500/10">
+                      <div key={doc.id} className="premium-glass group rounded-[2rem] p-8 hover:bg-white/[0.05] transition-all duration-500 relative overflow-hidden flex flex-col h-full">
+                        <div className="flex justify-between items-start mb-6">
+                          <div className="flex flex-col gap-2">
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-azure">
                                 {doc.type}
                             </span>
-                            <span className={`text-[8px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
+                            <span className={`text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border ${
                                 doc.status === 'paid' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
                                 doc.status === 'pending' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' :
-                                doc.status === 'final' ? 'bg-indigo-500/10 text-indigo-500 border-indigo-500/20' :
-                                'bg-slate-700/50 text-slate-400 border-slate-600'
+                                doc.status === 'final' ? 'bg-azure/10 text-azure border-azure/20' :
+                                'bg-white/5 text-slate-400 border-white/10'
                             }`}>
                                 {doc.status === 'paid' ? 'PAGO' : doc.status === 'pending' ? 'REVISÃO' : doc.status === 'final' ? 'FINAL' : 'RASCUNHO'}
                             </span>
                           </div>
-                          <button onClick={() => deleteFromHistory(doc.id)} className="text-slate-600 hover:text-rose-500 transition-colors">
-                             <Trash2 size={16} />
+                          <button onClick={() => deleteFromHistory(doc.id)} className="p-2 text-slate-600 hover:text-rose-500 hover:bg-rose-500/10 rounded-xl transition-all">
+                             <Trash2 size={18} />
                           </button>
                         </div>
-                        <h3 className="font-bold text-slate-200 truncate mb-1 text-lg tracking-tight relative z-10">{doc.name}</h3>
-                        <p className="text-[10px] text-slate-500 mb-6 font-medium relative z-10">Atualizado em {new Date(doc.savedAt).toLocaleDateString('pt-BR')} &middot; {new Date(doc.savedAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
-                        <button 
-                          onClick={() => loadFromHistory(doc)}
-                          className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-2xl transition-all shadow-lg shadow-indigo-600/20 active:scale-[0.98] relative z-10"
-                        >
-                          Abrir Documento
-                        </button>
+                        <h3 className="font-black text-white truncate mb-2 text-xl tracking-tighter">{doc.name}</h3>
+                        <p className="text-[11px] text-slate-500 mb-8 font-bold uppercase tracking-widest">
+                          {new Date(doc.savedAt).toLocaleDateString('pt-BR')} &bull; {new Date(doc.savedAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                        </p>
+                        <div className="mt-auto">
+                          <button 
+                            onClick={() => loadFromHistory(doc)}
+                            className="w-full py-4 bg-white/5 hover:bg-azure hover:text-white text-slate-300 text-[10px] font-black uppercase tracking-[0.2em] rounded-2xl transition-all active:scale-[0.98] border border-white/10 group-hover:border-azure/30"
+                          >
+                            Abrir Documento
+                          </button>
+                        </div>
                       </div>
                     ))}
                   </div>
