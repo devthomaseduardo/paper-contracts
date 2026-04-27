@@ -39,9 +39,7 @@ export const Sidebar = ({ currentType, onSelect, isOpen, onClose }) => {
       {/* Header / Logo */}
       <div className="h-24 px-8 flex items-center border-b border-white/5">
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-azure to-azure-dark flex items-center justify-center shadow-lg shadow-azure/20">
-            <FileText size={20} className="text-white" />
-          </div>
+          <img src="/paper‑contracts.png" alt="Paper Contracts Logo" className="w-10 h-10 object-contain drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
           <div className="flex flex-col">
             <span className="text-sm font-black tracking-tighter text-white uppercase">Paper Contracts</span>
             <span className="text-[10px] text-slate-500 font-bold tracking-widest uppercase">Editorial Suite</span>
