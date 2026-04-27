@@ -8,14 +8,14 @@ export const INITIAL_CONTRACT_DATA = {
   clientProfiles: [],
 
 
-  contractorName: "Thomas Nascimento",
-  contractorDoc: "60.882.678/0001-77",
-  contractorLocation: "São Paulo - SP",
-  contractorRole: "Desenvolvedor Fullstack Sênior",
-  contractorContact: "devthomaseduardo@gmail.com | (11) 97497-5062",
-  contractorLinkedin: "linkedin.com/in/devthomaseduardo",
-  contractorGithub: "github.com/devthomaseduardo",
-  contractorPortfolio: "thomaseduardo.online",
+  contractorName: "Seu Nome Completo",
+  contractorDoc: "00.000.000/0001-00",
+  contractorLocation: "Sua Cidade - UF",
+  contractorRole: "Seu Cargo / Profissão",
+  contractorContact: "seuemail@exemplo.com | (00) 00000-0000",
+  contractorLinkedin: "linkedin.com/in/seuperfil",
+  contractorGithub: "github.com/seuperfil",
+  contractorPortfolio: "seuportfolio.com.br",
   contractorSignature: null,
   contractorLogo: null,
 
@@ -53,14 +53,14 @@ export const INITIAL_CONTRACT_DATA = {
   invoiceId: new Date().getFullYear() + "-001",
   invoiceIssueDate: new Date().toLocaleDateString('pt-BR'),
 
-  cvSummary: "Desenvolvedor Fullstack com uma abordagem pragmática e orientada a resultados, especializado em transformar desafios de negócio em soluções digitais robustas, escaláveis e que entregam valor mensurável em produção. Minha expertise vai além da codificação: foco na arquitetura de sistemas, em decisões técnicas estratégicas que garantem performance (Core Web Vitals), segurança e manutenibilidade, e na gestão completa do ciclo de vida do projeto, do planejamento ao deploy na AWS. Com proficiência em React, Next.js e Node.js, construo interfaces de usuário que convertem e backends que sustentam o crescimento, sempre com um olhar crítico para o impacto direto no ROI do cliente.",
+  cvSummary: "Resumo profissional. Descreva aqui suas principais habilidades, anos de experiência, conquistas mais importantes e o que você busca na sua carreira.",
   
-  cvExperience: "EXPERIÊNCIA EM PROJETOS E CONSULTORIA (FREELANCE)\n\nAtuação como Desenvolvedor Fullstack Autônomo (08/2023 – Presente)\n\nHazap Informática – Otimização de Conversão e SEO\nDesafio: Baixa captação de leads e posicionamento orgânico ineficaz.\nSolução: Landing Page de alta performance com TypeScript e Astro (Core Web Vitals). Integração com API do WordPress.\nResultado: +40% na taxa de conversão de formulários e melhoria no ranqueamento orgânico.\n\nColor Waves (Instituto Kell) – Sistema de Checkout e Vendas\nDesafio: Processo de vendas manual e propenso a erros.\nSolução: Checkout completo com React, Node.js e integração Stripe (Pix/Cartão).\nResultado: Automação de 100% do fluxo de vendas e eliminação de erros manuais.\n\nReis do Manto – E-commerce de Nicho\nDesafio: Lançar e-commerce competitivo com experiência fluida.\nSolução: Loja virtual do zero (React/Node.js) com otimização de funil de vendas.\nResultado: UX/UI superior e processos de checkout simplificados, consolidando a marca.\n\nBras Service – Presença Digital e Captação de Clientes\nDesafio: Necessidade de presença digital moderna e CTAs estratégicos.\nSolução: Landing Page (React, TypeScript, Tailwind, Framer Motion, shadcn/ui).\nResultado: Aumento na visibilidade online e captação otimizada de leads via WhatsApp.",
+  cvExperience: "EXPERIÊNCIA PROFISSIONAL\n\nEmpresa Exemplo (Mês/Ano – Presente)\nCargo / Função\nDescreva suas principais atividades e resultados alcançados nesta posição.\n\nEmpresa Anterior (Mês/Ano – Mês/Ano)\nCargo / Função\nDescreva suas principais atividades e resultados alcançados nesta posição.",
   
-  cvEducation: "Engenharia de Software – Anhanguera (Em andamento)\n\nCertificações:\n- AWS Certified Cloud Practitioner\n- Web Development (freeCodeCamp / Great Learning)\n- React JS (Great Learning)",
+  cvEducation: "Formação Acadêmica – Instituição (Ano de Conclusão)\n\nCertificações:\n- Certificação Exemplo 1\n- Certificação Exemplo 2",
   
   cvSkills: [
-    "React", "Next.js", "TypeScript", "Tailwind CSS", "Astro", "Node.js", "Express", "Prisma", "PostgreSQL", "MongoDB", "AWS (EC2, S3, Lambda)", "Docker", "Stripe API", "n8n", "Clean Code", "TDD"
+    "Habilidade 1", "Habilidade 2", "Habilidade 3", "Habilidade 4", "Habilidade 5"
   ],
 
   letterBody: "Prezados,\n\nEscrevo para apresentar minha proposta de serviços...",

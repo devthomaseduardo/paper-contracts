@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { ContractForm } from './components/ContractForm';
 import { ContractPreview } from './components/ContractPreview';
 import { Sidebar } from './components/Sidebar';
+import { HomePage } from './components/HomePage';
 import { INITIAL_CONTRACT_DATA } from './types';
-import { Menu, Save, Trash2, FileText, Eye, History } from 'lucide-react';
+import { Menu, Save, Trash2, FileText, Eye, History, ShieldCheck, AlertTriangle } from 'lucide-react';
 
 import { getClients, saveClient as apiSaveClient, deleteClient as apiDeleteClient } from './services/api';
 
@@ -11,6 +12,7 @@ const STORAGE_KEY = 'papercontracts_current_v1';
 const HISTORY_KEY = 'papercontracts_history_v1';
 
 const App = () => {
+  const [isDemoActive, setIsDemoActive] = useState(false);
   const [contractData, setContractData] = useState(INITIAL_CONTRACT_DATA);
   const [history, setHistory] = useState([]);
   const [clientProfiles, setClientProfiles] = useState([]);
@@ -177,6 +179,10 @@ const App = () => {
     if (t === 'coverLetter') return 'Carta de apresentação';
     return 'Currículo';
   };
+
+  if (!isDemoActive) {
+    return <HomePage onAccessDemo={() => setIsDemoActive(true)} />;
+  }
 
   return (
     <div className="h-screen bg-midnight text-slate-100 font-sans flex overflow-hidden selection:bg-azure/30">
