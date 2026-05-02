@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
 import { config } from './config.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import { authMiddleware } from './middleware/auth.js';
 import { openApiSpec } from './openapi.js';
 import { aiRouter } from './routes/ai.js';
 import { clientsRouter } from './routes/clients.js';
@@ -36,8 +37,8 @@ export function createApp() {
     });
   });
 
-  v1.use('/ai', aiRouter);
-  v1.use('/clients', clientsRouter);
+  v1.use('/ai', authMiddleware, aiRouter);
+  v1.use('/clients', authMiddleware, clientsRouter);
 
   app.use('/api/v1', v1);
 

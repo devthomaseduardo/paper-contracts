@@ -80,6 +80,54 @@ export const ContractPreview = ({ data, onChange }) => {
 
   // --- SUB-COMPONENTES DE RENDERIZAÇÃO ---
 
+  const OfficialHeader = () => (
+    <div className="relative mb-12 flex justify-between items-start">
+        <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-black flex items-center justify-center rounded-lg">
+                    <Fingerprint size={24} className="text-white" />
+                </div>
+                <div>
+                    <h1 className="text-xl font-black tracking-tighter uppercase leading-none">Paper Contracts.</h1>
+                    <p className="text-[8px] font-bold tracking-[0.3em] uppercase text-gray-500 mt-1">Forensic Document Engine</p>
+                </div>
+            </div>
+        </div>
+        <div className="text-right flex flex-col items-end">
+            <div className="h-1 w-24 mb-4" style={{ backgroundColor: data.accentColor || '#3b82f6' }} />
+            <p className="text-[9px] font-black uppercase tracking-widest text-gray-400">Certificado Digital: #{data.id?.slice(-8).toUpperCase()}</p>
+            <p className="text-[8px] font-bold text-gray-300 mt-1 uppercase tracking-widest">Emitido em {new Date().toLocaleDateString('pt-BR')}</p>
+        </div>
+        {/* Geometric Accent Line */}
+        <div className="absolute -top-[25mm] -right-[20mm] w-[80mm] h-[80mm] bg-gray-50 rounded-full -z-10 opacity-50" />
+    </div>
+  );
+
+  const OfficialFooter = () => (
+    <div className="mt-auto pt-10 border-t-4 border-black relative">
+        <div className="absolute top-0 right-0 h-4 w-32" style={{ backgroundColor: data.accentColor || '#3b82f6' }} />
+        <div className="grid grid-cols-3 gap-8 items-end">
+            <div>
+                <p className="text-[7px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">Contato Oficial</p>
+                <p className="text-[9px] font-bold text-black">{data.contractorEmail || 'contato@empresa.com'}</p>
+                <p className="text-[9px] font-medium text-gray-600">{data.contractorPhone || '+55 11 99999-9999'}</p>
+            </div>
+            <div className="text-center">
+                <div className="flex justify-center mb-2">
+                    <Shield size={16} className="text-gray-200" />
+                </div>
+                <p className="text-[7px] font-black uppercase tracking-[0.2em] text-gray-400">Verificação de Integridade</p>
+                <p className="text-[8px] font-bold text-gray-500 mt-1">ISO 27001 &middot; 256-bit AES</p>
+            </div>
+            <div className="text-right">
+                <p className="text-[7px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">Localização / Registro</p>
+                <p className="text-[9px] font-bold text-black">SÃO PAULO / BRASIL</p>
+                <p className="text-[8px] font-medium text-gray-600 uppercase tracking-widest">Global Operations Center</p>
+            </div>
+        </div>
+    </div>
+  );
+
   const SignatureBlock = () => (
       <div className="mt-16 pt-8 border-t border-black flex justify-between gap-8 break-inside-avoid">
             <div className="flex-1 text-center flex flex-col items-center">
@@ -825,13 +873,17 @@ export const ContractPreview = ({ data, onChange }) => {
                     </div>
 
                     <div className="relative z-10 flex-1">
-                        {(data.type === 'contract' || data.type === 'nda') && renderContract()}
-                        {(data.type === 'quote' || data.type === 'invoice') && renderQuoteOrInvoice()}
-                        {data.type === 'cv' && renderCV()}
-                        {(data.type === 'letter' || data.type === 'declaration') && renderLetterOrDeclaration()}
-                        {data.type === 'letterhead' && renderLetterhead()}
-                        {data.type === 'coverLetter' && renderCoverLetter()}
-                        {data.type === 'petition' && renderPetition()}
+                        <OfficialHeader />
+                        <div className="py-8">
+                            {(data.type === 'contract' || data.type === 'nda') && renderContract()}
+                            {(data.type === 'quote' || data.type === 'invoice') && renderQuoteOrInvoice()}
+                            {data.type === 'cv' && renderCV()}
+                            {(data.type === 'letter' || data.type === 'declaration') && renderLetterOrDeclaration()}
+                            {data.type === 'letterhead' && renderLetterhead()}
+                            {data.type === 'coverLetter' && renderCoverLetter()}
+                            {data.type === 'petition' && renderPetition()}
+                        </div>
+                        <OfficialFooter />
                     </div>
                     
                     <div className="mt-12 pt-4 border-t border-gray-100 flex justify-between items-center opacity-30 text-[7pt] font-bold uppercase tracking-widest text-gray-400 break-inside-avoid">

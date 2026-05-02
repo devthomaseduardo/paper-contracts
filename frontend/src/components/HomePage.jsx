@@ -15,12 +15,12 @@ export const HomePage = ({ onAccessDemo, onNavigate }) => {
   return (
     <div className="min-h-screen bg-[#080a0c] text-[#e0e2e5] font-serif selection:bg-azure/30 overflow-x-hidden">
       {/* Editorial Header */}
-      <nav className="fixed w-full z-50 px-8 py-10 flex items-center justify-between mix-blend-difference">
-        <div className="flex items-center gap-6 group cursor-pointer" onClick={() => onNavigate('home')}>
-          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center border border-white/20 transition-transform group-hover:rotate-12">
-             <Fingerprint size={20} className="text-black" />
+      <nav className="fixed w-full z-[100] px-4 md:px-8 py-4 md:py-8 flex items-center justify-between bg-[#080a0c]/80 backdrop-blur-xl border-b border-white/5">
+        <div className="flex items-center gap-3 md:gap-6 group cursor-pointer" onClick={() => onNavigate('home')}>
+          <div className="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center border border-white/20 transition-transform group-hover:rotate-12">
+             <Fingerprint size={18} className="text-black" />
           </div>
-          <span className="font-black text-2xl tracking-tighter text-white uppercase italic">Paper Contracts.</span>
+          <span className="font-black text-lg md:text-2xl tracking-tighter text-white uppercase italic">Paper Contracts.</span>
         </div>
         
         <div className="hidden lg:flex items-center gap-12">
@@ -31,27 +31,28 @@ export const HomePage = ({ onAccessDemo, onNavigate }) => {
 
         <button
           onClick={() => onNavigate('login')}
-          className="group flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full transition-all active:scale-95"
+          className="group flex items-center gap-3 bg-white text-black px-4 md:px-8 py-2 md:py-4 rounded-full transition-all active:scale-95"
         >
-          <span className="text-[10px] font-black uppercase tracking-widest italic">Acessar Sistema</span>
+          <span className="text-[10px] font-black uppercase tracking-widest italic hidden sm:inline">Acessar Sistema</span>
+          <span className="text-[10px] font-black uppercase tracking-widest italic sm:hidden">Entrar</span>
           <ArrowRight size={16} />
         </button>
       </nav>
 
       {/* Hero Section - Editorial Layout */}
-      <section className="relative min-h-screen flex items-center pt-32 px-8 lg:px-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center w-full max-w-[1600px] mx-auto">
+      <section className="relative min-h-screen flex items-center pt-24 md:pt-32 px-6 md:px-8 lg:px-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center w-full max-w-[1600px] mx-auto">
           
-          <div className="lg:col-span-6 space-y-12">
-            <div className="space-y-6">
+          <div className="lg:col-span-6 space-y-8 md:space-y-12">
+            <div className="space-y-4 md:space-y-6">
               <span className="text-[10px] font-black uppercase tracking-[0.5em] text-azure block animate-in fade-in slide-in-from-bottom-4">Padrão Forense Digital</span>
-              <h1 className="text-7xl md:text-9xl font-black text-white leading-[0.85] tracking-tighter italic">
+              <h1 className="text-5xl md:text-8xl lg:text-9xl font-black text-white leading-[0.9] md:leading-[0.85] tracking-tighter italic">
                 A Arte de <br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 italic">Vencer Documentos.</span>
               </h1>
             </div>
 
-            <p className="text-2xl text-white/50 leading-relaxed font-light max-w-xl italic">
+            <p className="text-lg md:text-2xl text-white/50 leading-relaxed font-light max-w-xl italic">
               Não é apenas um gerador. É uma ferramenta de precisão artesanal que funde tipografia clássica com inteligência semântica para o profissional de elite.
             </p>
 
