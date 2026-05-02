@@ -5,6 +5,9 @@ import { Sidebar } from './components/Sidebar';
 import { ATSAnalyzer } from './components/ATSAnalyzer';
 import { HomePage } from './components/HomePage';
 import { LoginPage } from './components/LoginPage';
+import { TechnologyPage } from './components/TechnologyPage';
+import { SecurityPage } from './components/SecurityPage';
+import { EnterprisePage } from './components/EnterprisePage';
 import { auth, logout } from './firebase';
 import { onAuthStateChanged, getRedirectResult } from 'firebase/auth';
 
@@ -18,8 +21,9 @@ const HISTORY_KEY = 'papercontracts_history_v1';
 
 const App = () => {
   const [isDemoActive, setIsDemoActive] = useState(false);
-  const [showLoginPage, setShowLoginPage] = useState(false);
+  const [currentView, setCurrentView] = useState('home'); // home, login, tech, sec, ent
   const [user, setUser] = useState(null);
+
 
   const [contractData, setContractData] = useState(INITIAL_CONTRACT_DATA);
 
@@ -242,13 +246,20 @@ const App = () => {
   };
 
   if (!isDemoActive && !user) {
-    if (showLoginPage) {
+    if (currentView === 'login') {
       return <LoginPage 
-        onBack={() => setShowLoginPage(false)} 
+        onBack={() => setCurrentView('home')} 
         onLoginSuccess={() => setIsDemoActive(true)} 
       />;
     }
-    return <HomePage onAccessDemo={() => setShowLoginPage(true)} />;
+    if (currentView === 'tech') return <TechnologyPage onBack={() => setCurrentView('home')} />;
+    if (currentView === 'sec') return <SecurityPage onBack={() => setCurrentView('home')} />;
+    if (currentView === 'ent') return <EnterprisePage onBack={() => setCurrentView('home')} />;
+    
+    return <HomePage 
+      onAccessDemo={() => setIsDemoActive(true)} 
+      onNavigate={(view) => setCurrentView(view)}
+    />;
   }
 
 
