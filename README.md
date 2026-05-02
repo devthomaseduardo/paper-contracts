@@ -1,81 +1,92 @@
-# 📄 Paper-Contracts Premium v3.0
+# 📄 Paper-Contracts: Forensic Document Engine
+> **A fusão definitiva entre Design Editorial de Luxo, Inteligência Artificial Semântica e Segurança Forense.**
 
-O **Paper-Contracts** é uma suíte editorial de alta performance focada na geração de documentos corporativos, contratos e materiais de recrutamento (Currículos e Cartas de Apresentação) para profissionais da área de tecnologia e consultoria.
-
-Afastando-se de interfaces engessadas ou designs genéricos ("estilo IA"), o projeto adota uma **Estética Minimalista Suíça**, utilizando linhas finas, contrastes precisos, fundos limpos e uma tipografia altamente refinada. O objetivo é garantir que cada PDF gerado transmita extrema autoridade, organização e sofisticação B2B.
-
----
-
-## ✨ Principais Funcionalidades
-
-### 1. Typography Engine (Motor de Tipografia Global)
-Uma mecânica que permite alternar a "alma" visual de todo o documento com um único clique, modificando a forma como recrutadores e clientes percebem a sua marca pessoal:
-- **MODERNO SANS** (Outfit): Limpo, tecnológico, ágil. Ideal para tech leads e UX designers.
-- **EDITORIAL SERIF** (Lora): Sofisticado, elegante, tradicional. Perfeito para consultorias e documentos jurídicos.
-- **TÉCNICO MONO** (JetBrains Mono): Cru, exato, programático. Focado em engenheiros de software e arquitetos de dados.
-
-### 2. Recruiter Scanability (Otimização para ATS)
-Os currículos não são apenas bonitos, mas projetados para conversão. Um algoritmo inteligente embutido no cabeçalho mede a "Escaneabilidade" (ATS Score) do documento em tempo real, avaliando a profundidade das seções de Experiência, Projetos e Habilidades para garantir que seu CV passe pelas triagens automatizadas.
-
-### 3. Smart Document Workflow (Fluxo Dinâmico B2B)
-Gestão do ciclo de vida de um documento através de uma *timeline* conectada:
-- **Rascunho**: Recebe marcas d'água sutis e diagonais indicando que é um arquivo temporário.
-- **Sob Revisão**: Sinalizado com selos amarelos (estilo carimbo técnico).
-- **Documento Pronto**: O documento assume sua forma oficial e imaculada.
-- **Liquidado / Pago**: Carimbos verdes de validação final para faturas e propostas aprovadas.
-
-### 4. Quick Actions Formatting (Inserção Rápida de Símbolos)
-Painel inteligente integrado aos campos de texto longos que permite aos usuários inserir símbolos tipográficos complexos (•, →, ✓, ★, —) com um clique, aplicando-os exatamente onde o cursor está posicionado, otimizando a formatação de listas de habilidades e arquiteturas de projetos.
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://paper-contracts.vercel.app/)
+[![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![Google Cloud](https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)](https://cloud.google.com/)
 
 ---
 
-## 🏛️ Biblioteca de Templates
+## 🏛️ O Conceito
+O **Paper-Contracts** não é apenas um gerador de documentos. É um **Motor Editorial** desenvolvido para profissionais de elite que entendem que a autoridade de um contrato ou currículo começa na sua estética. Abandonamos o design "clichê de IA" em favor de uma experiência **Artesanal Digital**, inspirada na tipografia suíça e no minimalismo de luxo.
 
-A suíte possui um arsenal de templates B2B prontos para uso:
+## ✨ Novidades da v4.0 (Editorial Edition)
 
-1. **Currículo Vitae (Elite Standard):** Focado na progressão de carreira com seções dedicadas para Resumo, Skills, Experiências e um bloco exclusivo para *Projetos em Destaque*.
-2. **Carta de Apresentação Estratégica:** Design *clean* voltado para o Foco Estratégico e Chamada para Ação (CTA).
-3. **Proposta Comercial:** Layout rigoroso B2B com grades de preços e tabela de escopo estruturada.
-4. **Fatura de Serviços / Invoice:** Emissão de nota com cobrança unificada e Bloco de Pagamento PIX com geração automática de QR Code.
-5. **Contrato de Prestação de Serviços & NDA:** Documentos densos formatados para máxima legibilidade jurídica (Single-column, 11.5pt).
+### 1. 🧠 ATS Analyzer (Google Vertex AI)
+Integração nativa com o SDK oficial da **Google Cloud Vertex AI**. O sistema realiza uma análise semântica profunda do seu currículo, simulando o comportamento de recrutadores e algoritmos de triagem (ATS), gerando um dossiê tático de melhorias.
+
+### 2. 🔐 Autenticação Multi-Camada (Firebase)
+Sistema de login robusto e seguro via **Firebase Auth**, suportando:
+- **Google OAuth**: Acesso instantâneo e seguro.
+- **GitHub Auth**: Integração direta para o público tech.
+- **E-mail/Senha**: Gerenciamento de credenciais clássico com criptografia de ponta.
+
+### 3. 🎨 Design Editorial "Dark Mode"
+Uma interface imersiva que utiliza:
+- **Texturas Reais**: Imagens macro de papel e tinta digital que trazem alma ao sistema.
+- **Tipografia Forense**: Combinação de fontes serifadas clássicas e sans-serif tecnológicas.
+- **Responsividade Total**: O Modo de Visualização (Preview) foi otimizado para escalas dinâmicas em qualquer dispositivo.
+
+### 4. 🛡️ Segurança & Privacidade
+- **Zero-Knowledge Architecture**: Seus dados são processados localmente ou via tokens efêmeros.
+- **Authorized Domains**: Proteção contra acessos não autorizados via domínios configurados no console.
 
 ---
 
-## 💻 Arquitetura Técnica
+## 🛠️ Stack Tecnológica
 
-O projeto é construído como uma SPA (Single Page Application) focada no cliente, garantindo privacidade e processamento local.
-
-- **Framework:** React + Vite
-- **Styling:** Tailwind CSS (configurado com paletas exclusivas B2B, como `midnight`, `azure` e `slate` refinados).
-- **Export Engine:** Gerador de PDF nativo via HTML-to-PDF (`html2pdf.js`), garantindo fidelidade de pixel (Pixel-perfect) em folhas A4 (`210mm x 297mm`).
-- **State Management:** Controle de estados dinâmicos unificado e persistência de dados em cache (`localStorage`) para que você não perca seu rascunho ao fechar o navegador.
+- **Frontend:** React 19 + Vite (SPA de alta performance).
+- **Backend:** Node.js (Express) preparado para escalabilidade.
+- **IA:** Google Vertex AI (Gemini 1.5 Pro).
+- **Auth/Hosting:** Firebase & Vercel.
+- **Design:** Vanilla CSS + Lucide Icons + Editorial Assets.
 
 ---
 
 ## 🚀 Como Rodar o Projeto
 
-1. **Clone o Repositório:**
-   ```bash
-   git clone https://github.com/seu-usuario/paper-contracts.git
-   cd paper-contracts/frontend
-   ```
+Este projeto utiliza **npm workspaces** para gerenciar o Frontend e o Backend simultaneamente.
 
-2. **Instale as Dependências:**
-   ```bash
-   npm install
-   ```
+### 1. Pré-requisitos
+- Node.js v18+
+- Google Cloud SDK (para autenticação Vertex AI via ADC)
 
-3. **Inicie o Servidor de Desenvolvimento:**
-   ```bash
-   npm run dev
-   ```
+### 2. Configuração
+```bash
+# Clone o projeto
+git clone https://github.com/seu-usuario/paper-contracts.git
+cd paper-contracts
 
-O projeto rodará localmente na porta definida pelo Vite. Todo o processamento é local (não há banco de dados externo acoplado neste estágio).
+# Instale todas as dependências (Raiz, Frontend e Backend)
+npm install
+```
+
+### 3. Execução
+```bash
+# Inicie ambos os serviços (Vite + Node) simultaneamente
+npm run dev
+```
+
+O sistema estará disponível em `http://localhost:3000`.
 
 ---
 
-## 🎯 Filosofia do Produto (UX/UI)
-O *Paper-Contracts* defende a ideia de que o "menos é melhor resolvido". Nós descartamos ícones coloridos genéricos, pop-ups irritantes e layouts em formato "mosaico". Ao emular a experiência de estar lidando com um papel timbrado em cima de uma mesa de escritório preta à meia-noite, a aplicação eleva o estado de espírito do usuário para focar unicamente no que importa: **O peso e o impacto do seu conteúdo**.
+## 📂 Estrutura de Arquivos
+```text
+.
+├── backend/          # Motor de análise (Node.js + Vertex AI)
+├── frontend/         # Interface Editorial (React + Firebase)
+│   ├── public/       # Assets e Imagens Premium
+│   └── src/
+│       ├── components/  # Tecnologia, Segurança, Empresas, etc.
+│       └── firebase.js  # Configuração de Auth & Cloud
+└── package.json      # Configuração de Workspaces
+```
 
 ---
-*Developed by Thomas Eduardo @devthomas*
+
+## 🎯 Filosofia "Less, but Better"
+No *Paper-Contracts*, cada pixel tem um propósito. Removemos barras de progresso invasivas e grids genéricos para focar na **legibilidade e no impacto**. É a ferramenta definitiva para quem não aceita o mediano.
+
+---
+*Developed with excellence by Thomas Eduardo & Antigravity AI*
