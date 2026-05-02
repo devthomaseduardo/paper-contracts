@@ -5,7 +5,7 @@ import { Sidebar } from './components/Sidebar';
 import { ATSAnalyzer } from './components/ATSAnalyzer';
 import { HomePage } from './components/HomePage';
 import { auth, logout } from './firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, getRedirectResult } from 'firebase/auth';
 
 import { INITIAL_CONTRACT_DATA } from './types';
 import { Menu, Save, Trash2, FileText, Eye, History, ShieldCheck, AlertTriangle, Target } from 'lucide-react';
@@ -21,12 +21,16 @@ const App = () => {
   const [contractData, setContractData] = useState(INITIAL_CONTRACT_DATA);
 
   useEffect(() => {
+    // Handle redirect results
+    getRedirectResult(auth).catch(err => console.error("Redirect login error:", err));
+
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       if (currentUser) setIsDemoActive(true);
     });
     return () => unsubscribe();
   }, []);
+
 
   const handleLogout = async () => {
     await logout();

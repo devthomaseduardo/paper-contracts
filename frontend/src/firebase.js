@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAtOFqorKYtQ1--lzefOzvrKDeNfLHxbZE",
@@ -14,5 +14,17 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-export const signInWithGoogle = () => signInWithPopup(auth, provider);
+// Adicionando um escopo básico
+provider.addScope('profile');
+provider.addScope('email');
+
+export const signInWithGoogle = async () => {
+    try {
+        return await signInWithPopup(auth, provider);
+    } catch (error) {
+        console.error("Popup failed, trying redirect...", error);
+        return await signInWithRedirect(auth, provider);
+    }
+};
+
 export const logout = () => signOut(auth);
