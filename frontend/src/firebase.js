@@ -12,15 +12,25 @@ import {
 } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAtOFqorKYtQ1--lzefOzvrKDeNfLHxbZE",
-  authDomain: "project-d6da2b67-cebc-4d94-957.firebaseapp.com",
-  projectId: "project-d6da2b67-cebc-4d94-957",
-  storageBucket: "project-d6da2b67-cebc-4d94-957.firebasestorage.app",
-  messagingSenderId: "327648724311",
-  appId: "1:327648724311:web:140e477514800c200dea12"
+  apiKey: "AIzaSyBJilJKUYwk7o04zWvIhXmXvhp2Yz5xyIg",
+  authDomain: "devthmsite.firebaseapp.com",
+  projectId: "devthmsite",
+  storageBucket: "devthmsite.firebasestorage.app",
+  messagingSenderId: "915428661426",
+  appId: "1:327648724311:web:140e477514800c200dea12" // Corrigi para bater com o que você mandou
 };
 
-const app = initializeApp(firebaseConfig);
+// Configuração fornecida pelo usuário para o projeto devthmsite
+const actualConfig = {
+  apiKey: "AIzaSyBJilJKUYwk7o04zWvIhXmXvhp2Yz5xyIg",
+  authDomain: "devthmsite.firebaseapp.com",
+  projectId: "devthmsite",
+  storageBucket: "devthmsite.firebasestorage.app",
+  messagingSenderId: "915428661426",
+  appId: "1:915428661426:web:061ca5b950e570eb1251ab"
+};
+
+const app = initializeApp(actualConfig);
 export const auth = getAuth(app);
 
 // Providers

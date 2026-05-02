@@ -17,10 +17,13 @@ export const LoginPage = ({ onBack, onLoginSuccess }) => {
       if (method === 'github') await signInWithGithub();
       onLoginSuccess();
     } catch (err) {
-      setError(err.message.includes('auth/unauthorized-domain') 
-        ? 'Erro: Domínio "localhost" não autorizado no Firebase.' 
-        : 'Falha na autenticação. Tente novamente.');
+      if (err.message.includes('auth/unauthorized-domain')) {
+        setError(`DOMÍNIO NÃO AUTORIZADO: Adicione "localhost" e "paper-contracts.vercel.app" na lista de Domínios Autorizados no Console do Firebase.`);
+      } else {
+        setError(`FALHA NA AUTENTICAÇÃO: ${err.message}`);
+      }
     } finally {
+
       setLoading(false);
     }
   };
