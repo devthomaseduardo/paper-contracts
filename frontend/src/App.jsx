@@ -219,24 +219,26 @@ const App = () => {
   }
 
   return (
-    <div className="h-screen bg-midnight text-slate-100 font-sans flex overflow-hidden selection:bg-azure/30">
+    <div className="h-screen bg-midnight text-slate-100 font-sans flex overflow-hidden selection:bg-azure/30 print:h-auto print:overflow-visible print:bg-white">
       {/* Mobile Backdrop */}
       {sidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] lg:hidden animate-in fade-in duration-300" 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] lg:hidden animate-in fade-in duration-300 print:hidden" 
           onClick={() => setSidebarOpen(false)} 
         />
       )}
 
-      <Sidebar 
-        currentType={contractData.type} 
-        onSelect={handleTypeChange} 
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-      />
+      <div className="print:hidden">
+        <Sidebar 
+          currentType={contractData.type} 
+          onSelect={handleTypeChange} 
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+        />
+      </div>
 
-      <div className="flex-1 flex flex-col h-full min-w-0 pb-20 md:pb-0 relative">
-        <header className="h-16 md:h-24 premium-glass flex items-center justify-between px-6 md:px-12 shrink-0 z-40 sticky top-0 border-b border-white/5">
+      <div className="flex-1 flex flex-col h-full min-w-0 pb-20 md:pb-0 relative print:h-auto print:pb-0">
+        <header className="h-16 md:h-24 premium-glass flex items-center justify-between px-6 md:px-12 shrink-0 z-40 sticky top-0 border-b border-white/5 print:hidden">
           <div className="flex items-center gap-4">
             <button
               type="button"
@@ -298,7 +300,7 @@ const App = () => {
         </header>
 
         {/* MOBILE BOTTOM NAV */}
-        <div className="fixed bottom-0 left-0 right-0 h-20 bg-midnight-lighter/80 backdrop-blur-2xl border-t border-white/5 flex items-center justify-around px-8 z-50 md:hidden shadow-[0_-10px_40px_rgba(0,0,0,0.4)]">
+        <div className="fixed bottom-0 left-0 right-0 h-20 bg-midnight-lighter/80 backdrop-blur-2xl border-t border-white/5 flex items-center justify-around px-8 z-50 md:hidden shadow-[0_-10px_40px_rgba(0,0,0,0.4)] print:hidden">
             <button 
                 onClick={() => { setActiveTab('form'); setShowHistory(false); }}
                 className={`flex flex-col items-center gap-1.5 transition-all ${activeTab === 'form' && !showHistory ? 'text-azure scale-105' : 'text-slate-500'}`}
@@ -330,9 +332,9 @@ const App = () => {
             </button>
         </div>
 
-        <main className="flex-1 flex overflow-hidden">
+        <main className="flex-1 flex overflow-hidden print:overflow-visible print:block">
           <div
-            className={`flex-1 overflow-y-auto border-r border-slate-800 bg-slate-950 ${activeTab === 'form' ? 'block' : 'hidden md:block'}`}
+            className={`flex-1 overflow-y-auto border-r border-slate-800 bg-slate-950 print:hidden ${activeTab === 'form' ? 'block' : 'hidden md:block'}`}
           >
             {showHistory ? (
               <div className="p-8 lg:p-12 animate-in-scale">
@@ -416,9 +418,9 @@ const App = () => {
             )}
           </div>
 
-          <div className={`flex-1 bg-slate-900 relative ${activeTab === 'preview' ? 'block' : 'hidden md:block'}`}>
-            <div className="absolute inset-0 bg-slate-900 z-0" />
-            <div className="relative z-10 h-full">
+          <div className={`flex-1 bg-slate-900 relative print:bg-white print:overflow-visible print:block ${activeTab === 'preview' ? 'block' : 'hidden md:block'}`}>
+            <div className="absolute inset-0 bg-slate-900 z-0 print:hidden" />
+            <div className="relative z-10 h-full print:h-auto print:overflow-visible">
               <ContractPreview 
                 data={contractData} 
                 onChange={(updates) => setContractData(prev => ({ ...prev, ...updates }))} 

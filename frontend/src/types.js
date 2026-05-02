@@ -6,6 +6,7 @@ export const INITIAL_CONTRACT_DATA = {
   letterheadStyle: 'classic',
   pixKey: '',
   typographyStyle: 'modern',
+  language: 'pt',
   clientProfiles: [],
 
 

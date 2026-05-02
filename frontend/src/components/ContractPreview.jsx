@@ -23,14 +23,6 @@ export const ContractPreview = ({ data, onChange }) => {
   };
 
   const handleDownloadPDF = async () => {
-    // For Resumes and Cover Letters, ATS compliance is mandatory.
-    // html2pdf generates images which ATS cannot read. We must use native print.
-    if (data.type === 'cv' || data.type === 'coverLetter') {
-        alert("Para garantir compatibilidade de 100% com sistemas de recrutamento (ATS), o download será feito pela impressão nativa do sistema. Na próxima tela, certifique-se de escolher 'Salvar como PDF'.");
-        window.print();
-        return;
-    }
-
     const element = document.getElementById('printable-content');
     if (!element || !window.html2pdf) {
       alert('Biblioteca de PDF não carregada. Recarregue a página.');
@@ -433,7 +425,7 @@ export const ContractPreview = ({ data, onChange }) => {
               {data.cvSummary && (
                   <section className="break-inside-avoid">
                       <h2 className="text-[9pt] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4 border-b border-gray-100 pb-2">
-                          Resumo Profissional
+                          {data.language === 'en' ? 'Professional Summary' : 'Resumo Profissional'}
                       </h2>
                       <p className="text-[11pt] leading-relaxed text-gray-700 font-medium">
                           {data.cvSummary}
@@ -445,7 +437,7 @@ export const ContractPreview = ({ data, onChange }) => {
               {data.cvSkills && data.cvSkills.length > 0 && (
                   <section className="break-inside-avoid">
                       <h2 className="text-[9pt] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4 border-b border-gray-100 pb-2">
-                          Competências & Tecnologias
+                          {data.language === 'en' ? 'Skills & Technologies' : 'Competências & Tecnologias'}
                       </h2>
                       <p className="text-[10pt] leading-loose text-gray-800 font-bold">
                           {data.cvSkills.join('  ·  ')}
@@ -457,7 +449,7 @@ export const ContractPreview = ({ data, onChange }) => {
               {data.cvExperience && (
                   <section>
                       <h2 className="text-[9pt] font-bold uppercase tracking-[0.2em] text-gray-400 mb-6 border-b border-gray-100 pb-2">
-                          Experiência Profissional
+                          {data.language === 'en' ? 'Work History' : 'Experiência Profissional'}
                       </h2>
                       <div className="text-[10.5pt] leading-relaxed text-gray-800 whitespace-pre-line">
                           {data.cvExperience}
@@ -469,7 +461,7 @@ export const ContractPreview = ({ data, onChange }) => {
               {data.cvEducation && (
                   <section className="break-inside-avoid">
                       <h2 className="text-[9pt] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4 border-b border-gray-100 pb-2">
-                          Formação Acadêmica
+                          {data.language === 'en' ? 'Education' : 'Educação'}
                       </h2>
                       <div className="text-[10pt] leading-relaxed text-gray-700 whitespace-pre-line font-medium">
                           {data.cvEducation}
@@ -481,7 +473,7 @@ export const ContractPreview = ({ data, onChange }) => {
               {data.cvProjects && (
                   <section className="break-inside-avoid">
                       <h2 className="text-[9pt] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4 border-b border-gray-100 pb-2">
-                          Projetos & Informações Adicionais
+                          {data.language === 'en' ? 'Projects & Additional Information' : 'Projetos & Informações Adicionais'}
                       </h2>
                       <div className="text-[10pt] leading-relaxed text-gray-800 whitespace-pre-line">
                           {data.cvProjects}
@@ -617,9 +609,9 @@ export const ContractPreview = ({ data, onChange }) => {
   );
 
   return (
-    <div className="flex flex-col h-full bg-midnight">
+    <div className="flex flex-col h-full bg-midnight print:bg-white">
         {/* Toolbar */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 px-6 sm:px-8 py-4 bg-midnight-lighter/50 backdrop-blur-xl border-b border-white/5 shrink-0 z-20">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 px-6 sm:px-8 py-4 bg-midnight-lighter/50 backdrop-blur-xl border-b border-white/5 shrink-0 z-20 print:hidden">
             <div className="flex items-center gap-4">
                 <div className={`w-2 h-2 rounded-full ${data.status === 'final' ? 'bg-azure shadow-[0_0_12px_rgba(59,130,246,0.6)]' : data.status === 'pending' ? 'bg-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.6)]' : 'bg-slate-600'}`} />
                 <div className="flex flex-col">
@@ -633,7 +625,7 @@ export const ContractPreview = ({ data, onChange }) => {
             </div>
             
             <div className="flex flex-wrap items-center w-full md:w-auto gap-3 sm:gap-6">
-                {/* TYPOGRAPHY ENGINE */}
+                {/* TYPOGRAPHY & LANGUAGE ENGINE */}
                 <div className="flex items-center gap-1 bg-white/[0.03] p-1 rounded-2xl border border-white/5">
                     {[
                         { id: 'modern', label: 'MODERNO SANS' },
@@ -648,6 +640,24 @@ export const ContractPreview = ({ data, onChange }) => {
                             {t.label}
                         </button>
                     ))}
+                    
+                    {data.type === 'cv' && (
+                        <>
+                            <div className="w-px h-4 bg-white/10 mx-1"></div>
+                            {[
+                                { id: 'pt', label: 'PT' },
+                                { id: 'en', label: 'EN' }
+                            ].map(l => (
+                                <button
+                                    key={l.id}
+                                    onClick={() => onChange({ language: l.id })}
+                                    className={`px-3 py-1.5 text-[8px] font-black uppercase tracking-widest rounded-xl transition-all ${data.language === l.id ? 'bg-azure/20 text-azure border border-azure/30 shadow-[0_0_10px_rgba(59,130,246,0.3)]' : 'text-slate-600 hover:text-slate-400'}`}
+                                >
+                                    {l.label}
+                                </button>
+                            ))}
+                        </>
+                    )}
                 </div>
 
                 {/* Visual Options */}
@@ -689,28 +699,26 @@ export const ContractPreview = ({ data, onChange }) => {
         </div>
 
         {/* Workspace Area */}
-        <div className={`flex-1 overflow-y-auto p-4 md:p-20 transition-all duration-500 flex justify-center items-start custom-scrollbar relative ${isPrintMode ? 'bg-slate-100' : 'bg-midnight-deep'}`}>
+        <div className={`flex-1 overflow-y-auto p-4 md:p-20 transition-all duration-500 flex justify-center items-start custom-scrollbar relative print:overflow-visible print:p-0 print:bg-white print:block ${isPrintMode ? 'bg-slate-100' : 'bg-midnight-deep'}`}>
              {!isPrintMode && (
-                <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(white 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
+                <div className="absolute inset-0 pointer-events-none opacity-[0.03] print:hidden" style={{ backgroundImage: 'radial-gradient(white 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
              )}
 
             <div 
                 id="printable-content" 
-                className={`bg-white text-black shadow-premium origin-top transition-all duration-700 relative ${
+                className={`bg-white text-black shadow-premium origin-top transition-all duration-700 relative w-[210mm] min-h-[297mm] print:w-full print:min-h-0 print:m-0 print:shadow-none print:scale-100 ${
                     data.typographyStyle === 'serif' ? 'font-serif' : 
                     data.typographyStyle === 'mono' ? 'font-mono' : 
                     'font-sans'
                 } ${isPrintMode ? 'scale-100' : 'scale-[0.9] sm:scale-100 mt-8 mb-20'}`}
                 style={{
-                    width: '210mm',
-                    minHeight: '297mm',
                     display: 'block',
                     boxSizing: 'border-box'
                 }}
             >
                 {/* Page Break Simulation Lines (only in preview) */}
                 {!isPrintMode && (
-                    <div className="absolute inset-0 pointer-events-none z-50">
+                    <div className="absolute inset-0 pointer-events-none z-50 print:hidden">
                         <div className="h-[297mm] border-b-2 border-dashed border-indigo-500/10 w-full relative">
                             <span className="absolute bottom-1 right-2 text-[8px] font-black text-indigo-500/20 uppercase tracking-widest">Fim da Página 1</span>
                         </div>
@@ -722,16 +730,16 @@ export const ContractPreview = ({ data, onChange }) => {
                         </div>
                     </div>
                 )}
-                <div style={{
-                    paddingTop: '25mm',
-                    paddingBottom: '20mm',
-                    paddingLeft: '30mm',
-                    paddingRight: '20mm',
-                    minHeight: '297mm',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    boxSizing: 'border-box'
-                }}>
+                <div 
+                    className="min-h-[297mm] flex flex-col print:min-h-0 print:!p-0"
+                    style={{
+                        paddingTop: '25mm',
+                        paddingBottom: '20mm',
+                        paddingLeft: '30mm',
+                        paddingRight: '20mm',
+                        boxSizing: 'border-box'
+                    }}
+                >
                     <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
                         {/* RASCUNHO — faint diagonal watermark */}
                         {data.status === 'draft' && (
