@@ -23,6 +23,14 @@ export const ContractPreview = ({ data, onChange }) => {
   };
 
   const handleDownloadPDF = async () => {
+    // For Resumes and Cover Letters, ATS compliance is mandatory.
+    // html2pdf generates images which ATS cannot read. We must use native print.
+    if (data.type === 'cv' || data.type === 'coverLetter') {
+        alert("Para garantir compatibilidade de 100% com sistemas de recrutamento (ATS), o download será feito pela impressão nativa do sistema. Na próxima tela, certifique-se de escolher 'Salvar como PDF'.");
+        window.print();
+        return;
+    }
+
     const element = document.getElementById('printable-content');
     if (!element || !window.html2pdf) {
       alert('Biblioteca de PDF não carregada. Recarregue a página.');
