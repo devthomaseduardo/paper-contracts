@@ -16,14 +16,20 @@ export const SecurityPage = ({ onBack }) => {
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5 pointer-events-none" />
 
       <main className="max-w-6xl mx-auto pt-24 relative z-10">
-        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-8">
-           <ShieldCheck size={14} className="text-emerald-500" />
-           <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Protocolos Forenses Ativos</span>
+        <div className="flex flex-col lg:flex-row gap-16 items-center mb-20">
+          <div className="flex-1">
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-8">
+               <ShieldCheck size={14} className="text-emerald-500" />
+               <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Protocolos Forenses Ativos</span>
+            </div>
+            <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-[0.9]">
+              Sua Privacidade <br/> é Inegociável.
+            </h1>
+          </div>
+          <div className="w-full lg:w-1/3 aspect-square rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl">
+             <img src="/sec-editorial.png" alt="Security" className="w-full h-full object-cover" />
+          </div>
         </div>
-
-        <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-10 leading-[0.9]">
-          Sua Privacidade <br/> é Inegociável.
-        </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-20">
           {/* Security Box 1 */}

@@ -17,14 +17,20 @@ export const TechnologyPage = ({ onBack }) => {
       <div className="absolute top-0 right-0 w-1/2 h-screen bg-azure/5 blur-[120px] rounded-full pointer-events-none" />
 
       <main className="max-w-6xl mx-auto pt-24 relative z-10">
-        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-azure/10 border border-azure/20 mb-8">
-           <Cpu size={14} className="text-azure" />
-           <span className="text-[10px] font-black text-azure uppercase tracking-widest">Stack Tecnológica 2026</span>
+        <div className="flex flex-col lg:flex-row gap-16 items-center mb-20">
+          <div className="flex-1">
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-azure/10 border border-azure/20 mb-8">
+               <Cpu size={14} className="text-azure" />
+               <span className="text-[10px] font-black text-azure uppercase tracking-widest">Stack Tecnológica 2026</span>
+            </div>
+            <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-[0.9]">
+              Onde o Código <br/> encontra o Direito.
+            </h1>
+          </div>
+          <div className="w-full lg:w-1/3 aspect-square rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl">
+             <img src="/tech-editorial.png" alt="Tech" className="w-full h-full object-cover" />
+          </div>
         </div>
-
-        <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-10 leading-[0.9]">
-          Onde o Código <br/> encontra o Direito.
-        </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
           {/* Tech Card 1 */}
