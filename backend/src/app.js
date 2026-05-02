@@ -8,6 +8,7 @@ import { authMiddleware } from './middleware/auth.js';
 import { openApiSpec } from './openapi.js';
 import { aiRouter } from './routes/ai.js';
 import { clientsRouter } from './routes/clients.js';
+import { documentsRouter } from './routes/documents.js';
 
 export function createApp() {
   const app = express();
@@ -39,6 +40,7 @@ export function createApp() {
 
   v1.use('/ai', authMiddleware, aiRouter);
   v1.use('/clients', authMiddleware, clientsRouter);
+  v1.use('/documents', authMiddleware, documentsRouter);
 
   app.use('/api/v1', v1);
 

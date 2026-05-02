@@ -120,3 +120,31 @@ export async function deleteClient(doc) {
   });
   if (!res.ok) throw new Error(await parseError(res));
 }
+
+// Documents Cloud Storage
+export async function getDocuments() {
+  const headers = await getAuthHeaders({ 'Content-Type': 'application/json' });
+  const res = await fetch(`${apiBase()}/api/v1/documents`, { headers });
+  if (!res.ok) throw new Error(await parseError(res));
+  return await res.json();
+}
+
+export async function saveDocument(document) {
+  const headers = await getAuthHeaders({ 'Content-Type': 'application/json' });
+  const res = await fetch(`${apiBase()}/api/v1/documents`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(document),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return await res.json();
+}
+
+export async function deleteDocument(id) {
+  const headers = await getAuthHeaders();
+  const res = await fetch(`${apiBase()}/api/v1/documents/${id}`, { 
+    method: 'DELETE',
+    headers
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+}

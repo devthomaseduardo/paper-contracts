@@ -4,10 +4,14 @@ import {
   ChevronRight,
   Fingerprint,
   Zap,
-  LogOut
+  LogOut,
+  History,
+  Cloud,
+  Trash2,
+  FileText
 } from 'lucide-react';
 
-export const Sidebar = ({ currentType, onSelect, isOpen, onClose, user, onLogout }) => {
+export const Sidebar = ({ currentType, onSelect, isOpen, onClose, user, onLogout, cloudHistory = [], onLoadCloud, onDeleteCloud }) => {
 
   const menu = [
     { id: 'cv', label: 'Currículo Vitae', code: '01', desc: 'Recrutamento & Performance' },
@@ -87,6 +91,38 @@ export const Sidebar = ({ currentType, onSelect, isOpen, onClose, user, onLogout
             </button>
           );
         })}
+
+        {/* Cloud Dossiers Section */}
+        {user && cloudHistory.length > 0 && (
+          <div className="mt-12 space-y-4">
+             <div className="flex items-center justify-between px-4 mb-4">
+                <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.4em]">Dossiês na Nuvem</p>
+                <Cloud size={12} className="text-azure opacity-50" />
+             </div>
+             <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                {cloudHistory.map(doc => (
+                  <div key={doc.id} className="group relative flex items-center gap-3 p-3 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all">
+                     <div className="w-8 h-8 rounded-lg bg-azure/10 flex items-center justify-center">
+                        <FileText size={14} className="text-azure" />
+                     </div>
+                     <button 
+                        onClick={() => onLoadCloud(doc)}
+                        className="flex-1 text-left overflow-hidden"
+                     >
+                        <p className="text-[10px] font-black text-white truncate uppercase tracking-tighter">{doc.title}</p>
+                        <p className="text-[8px] text-slate-500 font-bold uppercase tracking-widest">{new Date(doc.timestamp).toLocaleDateString()}</p>
+                     </button>
+                     <button 
+                        onClick={() => onDeleteCloud(doc.id)}
+                        className="opacity-0 group-hover:opacity-100 p-2 text-slate-600 hover:text-rose-500 transition-all"
+                     >
+                        <Trash2 size={12} />
+                     </button>
+                  </div>
+                ))}
+             </div>
+          </div>
+        )}
       </nav>
 
       {/* User Identity & Integrity Widget */}

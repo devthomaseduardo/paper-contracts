@@ -14,7 +14,7 @@ import { onAuthStateChanged, getRedirectResult } from 'firebase/auth';
 import { INITIAL_CONTRACT_DATA } from './types';
 import { Menu, Save, Trash2, FileText, Eye, History, ShieldCheck, AlertTriangle, Target } from 'lucide-react';
 
-import { getClients, saveClient as apiSaveClient, deleteClient as apiDeleteClient } from './services/api';
+import { getClients, saveClient as apiSaveClient, deleteClient as apiDeleteClient, getDocuments as apiGetDocs, saveDocument as apiSaveDoc, deleteDocument as apiDeleteDoc } from './services/api';
 
 const STORAGE_KEY = 'papercontracts_current_v1';
 const HISTORY_KEY = 'papercontracts_history_v1';
@@ -45,6 +45,7 @@ const App = () => {
   };
 
   const [history, setHistory] = useState([]);
+  const [cloudHistory, setCloudHistory] = useState([]);
   const [clientProfiles, setClientProfiles] = useState([]);
   const [activeTab, setActiveTab] = useState('form');
   const [lastSaved, setLastSaved] = useState(null);
@@ -78,19 +79,22 @@ const App = () => {
       }
     }
 
-    // Load Clients from API
-    const loadClients = async () => {
+    // Load Clients & Documents from API
+    const loadAppData = async () => {
       try {
-        const data = await getClients();
-        setClientProfiles(data);
+        const [clients, docs] = await Promise.all([
+            getClients().catch(() => []),
+            apiGetDocs().catch(() => [])
+        ]);
+        setClientProfiles(clients);
+        setCloudHistory(docs);
       } catch (e) {
-        // Only log if it's not an authorization error (expected when guest)
         if (!e.message.includes('Unauthorized')) {
-          console.error('Error loading clients:', e);
+          console.error('Error loading app data:', e);
         }
       }
     };
-    loadClients();
+    loadAppData();
   }, []);
 
   useEffect(() => {
@@ -114,17 +118,38 @@ const App = () => {
     setShowHistory(false);
   };
 
-  const saveToHistory = () => {
+  const saveToHistory = async () => {
+    const id = Math.random().toString(36).substr(2, 9);
     const newDoc = {
       ...contractData,
-      id: Math.random().toString(36).substr(2, 9),
+      id: id,
       savedAt: new Date().toISOString(),
-      name: contractData.clientName || 'Documento sem nome'
+      name: contractData.contractTitle || contractData.clientName || 'Documento sem nome'
     };
+    
+    // Local Save
     const updatedHistory = [newDoc, ...history];
     setHistory(updatedHistory);
     localStorage.setItem(HISTORY_KEY, JSON.stringify(updatedHistory));
-    showToast('Documento salvo no histórico!');
+    
+    // Cloud Save if Logged In
+    if (user) {
+        try {
+            const savedDoc = await apiSaveDoc({
+                id: id,
+                title: newDoc.name,
+                type: newDoc.type,
+                content: contractData
+            });
+            setCloudHistory(prev => [savedDoc, ...prev]);
+            showToast('Documento salvo na nuvem!');
+        } catch (e) {
+            console.error('Cloud save failed:', e);
+            showToast('Salvo localmente (Erro na nuvem)', 'info');
+        }
+    } else {
+        showToast('Documento salvo no histórico local!');
+    }
   };
 
   const saveClientProfile = async (client) => {
@@ -266,6 +291,26 @@ const App = () => {
   }
 
 
+  const loadFromCloud = (doc) => {
+    if (confirm(`Carregar o dossiê "${doc.title}"? Isso substituirá os dados atuais.`)) {
+      setContractData(doc.content);
+      showToast('Dossiê carregado da nuvem!');
+      if (window.innerWidth < 1024) setSidebarOpen(false);
+    }
+  };
+
+  const deleteFromCloud = async (id) => {
+    if (confirm('Excluir este dossiê permanentemente da nuvem?')) {
+        try {
+            await apiDeleteDoc(id);
+            setCloudHistory(prev => prev.filter(d => d.id !== id));
+            showToast('Dossiê excluído da nuvem!');
+        } catch (e) {
+            showToast('Erro ao excluir: ' + e.message, 'error');
+        }
+    }
+  };
+
   return (
     <div className="h-screen bg-midnight text-slate-100 font-sans flex overflow-hidden selection:bg-azure/30 print:h-auto print:overflow-visible print:bg-white">
       {/* Mobile Backdrop */}
@@ -284,6 +329,9 @@ const App = () => {
           onClose={() => setSidebarOpen(false)}
           user={user}
           onLogout={handleLogout}
+          cloudHistory={cloudHistory}
+          onLoadCloud={loadFromCloud}
+          onDeleteCloud={deleteFromCloud}
         />
       </div>
 

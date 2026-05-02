@@ -1,4 +1,25 @@
-Copyright (c) 2026 Thomas Eduardo
-All rights reserved.
+# LICENÇA DE SOFTWARE PAPER CONTRACTS
 
-Unauthorized copying, distribution, or modification of this software, in whole or in part, is strictly prohibited. Permission may be granted only by the author.
+## Versão 1.0 — Propriedade Intelectual Reservada
+
+Este software ("Paper Contracts") e toda a sua documentação, design, interface e algoritmos de motor forense são de propriedade exclusiva de **Thomas Eduardo (@devthomas)**.
+
+### 1. CONCESSÃO DE USO
+Esta licença concede ao usuário o direito de executar o software localmente para fins de avaliação, desenvolvimento pessoal ou uso operacional privado. 
+
+### 2. RESTRIÇÕES (O que você NÃO pode fazer)
+Ao utilizar este software, você concorda expressamente em NÃO:
+- Copiar, modificar ou distribuir o código-fonte para fins comerciais sem autorização prévia.
+- Remover, ocultar ou alterar quaisquer avisos de direitos autorais ou marcas registradas (incluindo menções a "Paper Contracts" ou "@devthomas").
+- Utilizar o motor de design ("Editorial Paper & Ink") para criar produtos concorrentes que visem a redistribuição da lógica de geração de documentos.
+- Realizar engenharia reversa para extrair os prompts de IA e a lógica de processamento proprietária.
+
+### 3. AUSÊNCIA DE GARANTIA
+O SOFTWARE É FORNECIDO "COMO ESTÁ", SEM GARANTIA DE QUALQUER TIPO, EXPRESSA OU IMPLÍCITA, INCLUINDO, MAS NÃO SE LIMITANDO ÀS GARANTIAS DE COMERCIALIZAÇÃO OU ADEQUAÇÃO A UM PROPÓSITO ESPECÍFICO.
+
+### 4. LIMITAÇÃO DE RESPONSABILIDADE
+EM NENHUM CASO O AUTOR SERÁ RESPONSÁVEL POR QUALQUER RECLAMAÇÃO, DANOS OU OUTRA RESPONSABILIDADE, SEJA EM UMA AÇÃO DE CONTRATO, ATO ILÍCITO OU DE OUTRA FORMA, DECORRENTE DE, FORA DE OU EM CONEXÃO COM O SOFTWARE OU O USO OU OUTRAS NEGOCIAÇÕES NO SOFTWARE.
+
+---
+Copyright (c) 2026 Thomas Eduardo. Todos os direitos reservados.
+Portal Oficial: https://github.com/devthomaseduardo/paper-contracts
