@@ -862,21 +862,6 @@ export const ContractPreview = ({ data, onChange }) => {
                         )}
                         {/* FINALIZADO — Documento limpo e oficial (no watermark) */}
                         {hasWorkflow && data.status === 'final' && null}
-                        {/* PAGO — bold emerald rectangle stamp */}
-                        {hasWorkflow && data.status === 'paid' && (
-                            <div style={{
-                                transform: 'rotate(-10deg)',
-                                border: '6pt double rgba(16,185,129,0.25)',
-                                borderRadius: '2mm', padding: '5mm 12mm',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            }}>
-                                <p style={{
-                                    fontSize: '60pt', fontWeight: 950, textTransform: 'uppercase',
-                                    color: 'rgba(16,185,129,0.25)', letterSpacing: '0.05em',
-                                    userSelect: 'none', whiteSpace: 'nowrap',
-                                }}>PAGO</p>
-                            </div>
-                        )}
                     </div>
 
                     {/* Watermark */}

@@ -271,14 +271,14 @@ const App = () => {
 
   const docTitle = () => {
     const t = contractData.type;
-    if (t === 'contract') return 'Contrato de Serviço';
-    if (t === 'nda') return 'Acordo de Sigilo';
-    if (t === 'quote') return 'Proposta Comercial';
-    if (t === 'invoice') return 'Fatura de Serviço';
-    if (t === 'declaration') return 'Declaração Oficial';
-    if (t === 'letter') return 'Papel Timbrado';
-    if (t === 'coverLetter') return 'Carta de Apresentação';
-    return 'Currículo Vitae';
+    if (t === 'contract') return 'Acordo Vinculativo';
+    if (t === 'nda') return 'Protocolo de Sigilo';
+    if (t === 'quote') return 'Proposta de Valor';
+    if (t === 'invoice') return 'Extrato de Liquidação';
+    if (t === 'declaration') return 'Atestado de Fé Pública';
+    if (t === 'letter') return 'Correspondência Oficial';
+    if (t === 'coverLetter') return 'Carta de Impacto';
+    return 'Dossiê Estratégico';
   };
 
   if (authLoading) {
@@ -359,69 +359,97 @@ const App = () => {
       </div>
 
       <div className="flex-1 flex flex-col h-full min-w-0 pb-20 md:pb-0 relative print:h-auto print:pb-0">
-        <header className="h-16 md:h-24 premium-glass flex items-center justify-between px-6 md:px-12 shrink-0 z-40 sticky top-0 border-b border-white/5 print:hidden">
-          <div className="flex items-center gap-4">
+        <header className="h-28 lg:h-32 px-6 lg:px-12 flex items-center justify-between border-b border-white/[0.03] bg-black/40 backdrop-blur-3xl sticky top-0 z-[60] print:hidden transition-all duration-500">
+          <div className="flex items-center gap-4 lg:gap-10">
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden text-white p-2.5 -ml-2 bg-white/5 hover:bg-white/10 rounded-2xl transition-colors"
+              className="lg:hidden text-white p-3 bg-white/5 hover:bg-white/10 rounded-2xl transition-colors border border-white/5"
               aria-label="Abrir Menu"
             >
               <Menu size={20} />
             </button>
+
+            <div className="hidden sm:flex flex-col items-end border-r border-white/5 pr-6 lg:pr-10 py-1">
+                <span className="text-[9px] font-black text-slate-700 uppercase tracking-[0.4em] mb-1">Node ID</span>
+                <span className="text-[11px] font-mono text-azure/80 font-bold tracking-tighter">PHNX-0128-TX</span>
+            </div>
+            
             <div className="flex flex-col">
-              <div className="flex items-center gap-2">
-                <h1 className="font-black text-lg md:text-2xl text-white tracking-tighter">
-                  {docTitle()}
-                </h1>
-                <div className="hidden md:flex items-center gap-4">
-                  <div className="px-2 py-0.5 rounded-md bg-azure/10 border border-azure/20">
-                    <span className="text-[10px] font-black text-azure uppercase tracking-widest">Rascunho Ativo</span>
-                  </div>
-                  <div className="h-4 w-px bg-white/10" />
-                  <div className="flex items-center gap-3">
-                     <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Escaneabilidade</span>
-                     <div className="flex items-center gap-1.5">
-                        <div className="w-20 h-1.5 bg-white/5 rounded-full overflow-hidden">
-                           <div 
-                              className={`h-full transition-all duration-1000 ${calculateScore() > 80 ? 'bg-emerald-500' : calculateScore() > 50 ? 'bg-amber-500' : 'bg-rose-500'}`} 
-                              style={{ width: `${calculateScore()}%` }} 
-                           />
-                        </div>
-                        <span className={`text-[10px] font-black font-mono ${calculateScore() > 80 ? 'text-emerald-500' : calculateScore() > 50 ? 'text-amber-500' : 'text-rose-500'}`}>
-                           {calculateScore()}%
-                        </span>
-                     </div>
-                  </div>
-                </div>
+              <div className="flex items-center gap-3 mb-1">
+                 <h2 className="text-xl lg:text-2xl font-black text-white uppercase tracking-tighter leading-none">
+                    {showAtsAnalyzer ? 'Simulador ATS' : docTitle()}
+                 </h2>
+                 {showAtsAnalyzer && (
+                    <button 
+                      onClick={() => setShowAtsAnalyzer(false)}
+                      className="ml-2 text-[9px] bg-rose-500/10 text-rose-500 px-3 py-1 rounded-lg border border-rose-500/20 hover:bg-rose-500 hover:text-white transition-all uppercase font-black tracking-widest"
+                    >
+                      Sair
+                    </button>
+                 )}
               </div>
-              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em] mt-0.5">Workspace Editorial &middot; Node do Sistema 01</p>
+              <div className="flex items-center gap-3">
+                 <div className="flex items-center gap-1.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-azure animate-pulse" />
+                    <span className="text-[9px] text-slate-500 font-black uppercase tracking-[0.3em] whitespace-nowrap">Criptografia Camada 02 Ativa</span>
+                 </div>
+                 <span className="hidden lg:inline text-[9px] text-slate-700 font-bold uppercase tracking-widest border-l border-white/10 pl-3">v.3.2.0-STABLE</span>
+              </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          {/* SYSTEM METRICS (DESKTOP) */}
+          <div className="hidden xl:flex items-center gap-10">
+             <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                   <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest">Integridade Semântica</span>
+                   <span className={`text-[10px] font-mono font-black ${calculateScore() > 80 ? 'text-emerald-500' : calculateScore() > 50 ? 'text-amber-500' : 'text-rose-500'}`}>
+                      {calculateScore()}%
+                   </span>
+                </div>
+                <div className="w-40 h-1 bg-white/5 rounded-full overflow-hidden">
+                   <div 
+                      className={`h-full transition-all duration-1000 ${calculateScore() > 80 ? 'bg-emerald-500' : calculateScore() > 50 ? 'bg-amber-500' : 'bg-rose-500'}`} 
+                      style={{ width: `${calculateScore()}%` }} 
+                   />
+                </div>
+             </div>
+
+             {lastSaved && (
+               <div className="flex flex-col items-end border-l border-white/5 pl-10">
+                 <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest mb-1">Último Sinc</span>
+                 <span className="text-[10px] font-mono text-slate-400 font-bold tracking-widest uppercase">
+                   {lastSaved.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                 </span>
+               </div>
+             )}
+          </div>
+
+          {/* ACTION CLUSTER */}
+          <div className="flex items-center gap-2.5 lg:gap-4">
             <button
               onClick={() => setShowAtsAnalyzer(true)}
-              className="group hidden lg:flex bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all items-center gap-2.5 border border-emerald-500/20 active:scale-95"
+              title="Simulador de Admissibilidade"
+              className="hidden lg:flex p-3.5 bg-white/5 hover:bg-emerald-500/5 text-slate-500 hover:text-emerald-400 rounded-2xl border border-white/5 hover:border-emerald-500/10 transition-all active:scale-95"
             >
-              <Target size={16} /> Analisador ATS
+              <Target size={20} />
             </button>
-            {lastSaved && (
-              <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/5">
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                  Auto-salvo às {lastSaved.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
-                </span>
-              </div>
-            )}
+
+            <button
+              onClick={() => window.print()}
+              className="p-3.5 lg:px-6 lg:py-3.5 bg-white/5 hover:bg-white/10 text-slate-300 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 border border-white/10 active:scale-95 shadow-lg"
+            >
+              <FileText size={20} className="text-azure" /> 
+              <span className="hidden xl:inline">Exportar PDF</span>
+            </button>
 
             <button
               onClick={saveToHistory}
-              className="group bg-azure hover:bg-azure-dark text-white px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2.5 shadow-xl shadow-azure/20 active:scale-95"
+              className="px-6 py-3.5 lg:px-8 bg-azure hover:bg-azure-dark text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 shadow-lg shadow-azure/10 active:scale-95 group border border-azure/50"
             >
-              <Save size={16} className="group-hover:scale-110 transition-transform" /> 
-              <span className="hidden md:inline">Salvar Documento</span>
-              <span className="md:hidden">Salvar</span>
+              <Save size={20} className="group-hover:scale-110 transition-transform" /> 
+              <span>Salvar <span className="hidden sm:inline">Protocolo</span></span>
             </button>
           </div>
         </header>
@@ -459,9 +487,12 @@ const App = () => {
             </button>
         </div>
 
-        <main className="flex-1 flex overflow-hidden print:overflow-visible print:block">
+        <main className="flex-1 flex gap-4 lg:gap-8 p-4 lg:p-10 overflow-hidden print:overflow-visible print:block bg-[#020408]">
           <div
-            className={`flex-1 overflow-y-auto border-r border-slate-800 bg-slate-950 print:hidden ${activeTab === 'form' ? 'block' : 'hidden md:block'}`}
+            tabIndex="0"
+            className={`flex-1 overflow-y-auto border border-white/5 bg-slate-950/50 backdrop-blur-3xl rounded-[3rem] focus:outline-none focus-visible:ring-1 focus-visible:ring-azure/30 transition-all custom-scrollbar print:hidden shadow-2xl ${activeTab === 'form' ? 'block' : 'hidden md:block'}`}
+            role="region"
+            aria-label="Editor de Documentos"
           >
             {showAtsAnalyzer ? (
               <ATSAnalyzer cvData={contractData} onClose={() => setShowAtsAnalyzer(false)} />
@@ -500,17 +531,9 @@ const App = () => {
                     {history.map(doc => (
                       <div key={doc.id} className="premium-glass group rounded-[2rem] p-8 hover:bg-white/[0.05] transition-all duration-500 relative overflow-hidden flex flex-col h-full">
                         <div className="flex justify-between items-start mb-6">
-                          <div className="flex flex-col gap-2">
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-azure">
+                          <div className="flex flex-col gap-1">
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">
                                 {doc.type}
-                            </span>
-                            <span className={`text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border ${
-                                doc.status === 'paid' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
-                                doc.status === 'pending' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' :
-                                doc.status === 'final' ? 'bg-azure/10 text-azure border-azure/20' :
-                                'bg-white/5 text-slate-400 border-white/10'
-                            }`}>
-                                {doc.status === 'paid' ? 'PAGO' : doc.status === 'pending' ? 'REVISÃO' : doc.status === 'final' ? 'FINAL' : 'RASCUNHO'}
                             </span>
                           </div>
                           <button onClick={() => deleteFromHistory(doc.id)} className="p-2 text-slate-600 hover:text-rose-500 hover:bg-rose-500/10 rounded-xl transition-all">
@@ -547,7 +570,12 @@ const App = () => {
             )}
           </div>
 
-          <div className={`flex-1 bg-slate-900 relative print:bg-white print:overflow-visible print:block ${activeTab === 'preview' ? 'block' : 'hidden md:block'} ${showAtsAnalyzer ? '!hidden' : ''}`}>
+          <div 
+            tabIndex="0"
+            className={`flex-1 bg-white/[0.02] border border-white/5 rounded-[3rem] relative focus:outline-none focus-visible:ring-1 focus-visible:ring-azure/30 transition-all custom-scrollbar overflow-y-auto print:bg-white print:overflow-visible print:block shadow-2xl ${activeTab === 'preview' ? 'block' : 'hidden md:block'} ${showAtsAnalyzer ? '!hidden' : ''}`}
+            role="region"
+            aria-label="Visualização do Documento"
+          >
             {!showAtsAnalyzer && (
                 <>
                     <div className="absolute inset-0 bg-slate-900 z-0 print:hidden" />

@@ -251,7 +251,7 @@ const TextArea = ({ label, value, onChange, placeholder, className = "", maxLeng
 
 
 export const ContractForm = ({ data, onChange, onReset, onSaveClient, onDeleteClient, clientProfiles = [], onNotify }) => {
-  const [activeSection, setActiveSection] = useState('parties');
+  const [activeSection, setActiveSection] = useState(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [isClauseLoading, setIsClauseLoading] = useState(false);
   const [isRiskLoading, setIsRiskLoading] = useState(false);
@@ -476,7 +476,6 @@ export const ContractForm = ({ data, onChange, onReset, onSaveClient, onDeleteCl
           </div>
           <div className="flex flex-col items-start">
             <h3 className={`font-black text-xs sm:text-sm uppercase tracking-[0.2em] ${active ? 'text-white' : 'text-slate-500 group-hover:text-slate-300'}`}>{title}</h3>
-            {active && <p className="text-[10px] text-azure/60 font-bold uppercase tracking-widest mt-1">Configuração Ativa</p>}
           </div>
         </div>
         <div className={`p-2 rounded-xl transition-all duration-500 ${active ? 'bg-azure/10 text-azure rotate-180' : 'bg-midnight text-slate-700'}`}>
@@ -488,32 +487,69 @@ export const ContractForm = ({ data, onChange, onReset, onSaveClient, onDeleteCl
 
   return (
     <>
-    <div className="p-4 sm:p-6 pb-32 space-y-4 max-w-4xl mx-auto">
-      {/* === TOP WORKFLOW & STATUS REMOVED === */}
-      <div className="mb-10 bg-slate-900/40 border border-white/5 rounded-[2.5rem] p-8 shadow-2xl backdrop-blur-xl">
-
-          <div className="h-px bg-white/5 w-full my-8" />
-          
-          <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                 <div className="p-2 bg-azure/10 rounded-lg text-azure">
-                    <Info size={14} />
-                 </div>
-                 <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest opacity-60">Marcas d'água atualizadas automaticamente por fase</p>
+    <div className="p-8 lg:p-12 pb-40 space-y-12 max-w-5xl mx-auto">
+      {/* === DASHBOARD DE INSTRUMENTAÇÃO (COCKPIT) === */}
+      <div className="bg-slate-900/40 border border-white/[0.03] rounded-[2.5rem] p-1 shadow-2xl backdrop-blur-2xl animate-in fade-in slide-in-from-top-4 duration-700">
+          <div className="flex flex-col lg:flex-row items-stretch gap-1">
+              {/* SEGURANÇA */}
+              <div className="flex-1 bg-white/[0.02] rounded-[2rem] p-6 border border-white/[0.03] flex items-center gap-5 group hover:bg-white/[0.04] transition-all">
+                  <div className="w-12 h-12 rounded-2xl bg-azure/10 flex items-center justify-center border border-azure/20 text-azure group-hover:scale-110 transition-transform">
+                      <ShieldCheck size={24} />
+                  </div>
+                  <div>
+                      <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] mb-1">Status de Segurança</p>
+                      <div className="flex items-center gap-2">
+                          <span className="text-xs font-mono font-black text-white tracking-tighter">CAMADA_02</span>
+                          <div className="flex gap-0.5">
+                              {[1,2,3,4,5].map(i => (
+                                  <div key={i} className={`w-1 h-3 rounded-full ${i <= 3 ? 'bg-emerald-500/80' : 'bg-white/10'}`} />
+                              ))}
+                          </div>
+                      </div>
+                  </div>
               </div>
-              <button 
-                type="button" 
-                onClick={onReset} 
-                className="group inline-flex h-11 items-center justify-center gap-3 rounded-2xl bg-rose-500/5 px-6 text-[10px] font-black uppercase tracking-[0.2em] text-rose-500/60 hover:bg-rose-500 hover:text-white transition-all duration-300 active:scale-95 border border-rose-500/10 hover:border-rose-500 hover:shadow-[0_10px_20px_rgba(244,63,94,0.2)]"
-              >
-                <Eraser size={14} className="group-hover:rotate-12 transition-transform" /> <span>Resetar Tudo</span>
-              </button>
+
+              {/* IDENTIDADE */}
+              <div className="flex-1 bg-white/[0.02] rounded-[2rem] p-6 border border-white/[0.03] flex items-center gap-5 group hover:bg-white/[0.04] transition-all">
+                  <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 text-slate-400">
+                      <Fingerprint size={24} />
+                  </div>
+                  <div className="min-w-0">
+                      <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] mb-1">Identidade do Protocolo</p>
+                      <p className="text-sm font-black text-white uppercase tracking-tighter truncate">{data.contractorName || 'SISTEMA_ANÔNIMO'}</p>
+                  </div>
+              </div>
+
+              {/* DENSIDADE */}
+              <div className="flex-1 bg-white/[0.02] rounded-[2rem] p-6 border border-white/[0.03] flex flex-col justify-center group hover:bg-white/[0.04] transition-all">
+                  <div className="flex items-center justify-between mb-2">
+                      <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em]">Densidade de Dados</p>
+                      <span className="text-xs font-mono font-black text-azure">78.4%</span>
+                  </div>
+                  <div className="flex gap-1">
+                      {Array.from({length: 12}).map((_, i) => (
+                          <div key={i} className={`h-1.5 flex-1 rounded-full ${i < 9 ? 'bg-azure/80' : 'bg-white/5'}`} />
+                      ))}
+                  </div>
+              </div>
+
+              {/* PURGE ACTION */}
+              <div className="bg-rose-500/5 hover:bg-rose-500/10 rounded-[2rem] p-2 flex items-center border border-rose-500/10 transition-all">
+                  <button 
+                      onClick={onReset}
+                      className="w-full h-full lg:w-20 px-6 py-4 lg:p-0 flex flex-col items-center justify-center gap-2 group transition-all active:scale-90"
+                      title="Expurgar Dados do Sistema"
+                  >
+                      <Eraser size={20} className="text-rose-500 group-hover:rotate-12 transition-transform" />
+                      <span className="text-[8px] font-black text-rose-500/60 uppercase tracking-widest">Purge</span>
+                  </button>
+              </div>
           </div>
       </div>
 
 
       {/* === 1. IDENTIFICAÇÃO & BRANDING === */}
-      <div className="space-y-3">
+      <div className="space-y-6">
         <SectionHeader id="parties" title="Identificação & Branding" icon={User} />
         {activeSection === 'parties' && (
           <div className="p-8 bg-slate-900/30 border border-white/5 rounded-[2.5rem] space-y-10 animate-in fade-in zoom-in-95 duration-500">
@@ -586,7 +622,7 @@ export const ContractForm = ({ data, onChange, onReset, onSaveClient, onDeleteCl
 
             {/* Client Section (if applicable) */}
             {data.type !== 'cv' && (
-              <div className="pt-10 border-t border-white/5 space-y-8">
+              <div className="pt-16 border-t border-white/5 space-y-12">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                   <div className="flex items-center gap-3">
                     <div className="w-1.5 h-6 bg-emerald-500 rounded-full" />
@@ -942,7 +978,7 @@ export const ContractForm = ({ data, onChange, onReset, onSaveClient, onDeleteCl
 
       {/* 3. FINANCEIRO & PRAZOS (Contrato/Orçamento/Recibo) */}
       {(data.type === 'contract' || data.type === 'quote' || data.type === 'invoice') && (
-        <div className="space-y-2">
+        <div className="space-y-6">
             <SectionHeader id="financial" title="Financeiro & Datas" icon={Wallet} />
             {activeSection === 'financial' && (
                 <div className="p-6 bg-midnight-lighter/20 border-l-2 border-azure rounded-r-[2rem] grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-4 duration-500">
@@ -999,6 +1035,31 @@ export const ContractForm = ({ data, onChange, onReset, onSaveClient, onDeleteCl
                                         30% Sinal
                                     </button>
                                 </div>
+
+                                <button 
+                                    onClick={async () => {
+                                        if (data.services.length === 0) return notify('Adicione serviços para gerar o cronograma.', 'error');
+                                        setIsTimelineLoading(true);
+                                        try {
+                                            const timeline = await generateTimeline(data.services);
+                                            handleChange('timeline', timeline);
+                                            notify('Cronograma estratégico gerado!');
+                                        } catch (e) {
+                                            notify('Erro ao gerar cronograma: ' + e.message, 'error');
+                                        } finally {
+                                            setIsTimelineLoading(false);
+                                        }
+                                    }}
+                                    disabled={isTimelineLoading}
+                                    className="w-full py-4 bg-azure/10 hover:bg-azure text-azure hover:text-white rounded-xl border border-azure/30 transition-all flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-azure/5 active:scale-95 disabled:opacity-50"
+                                >
+                                    {isTimelineLoading ? (
+                                        <RefreshCcw size={14} className="animate-spin" />
+                                    ) : (
+                                        <Zap size={14} />
+                                    )}
+                                    Gerar Cronograma Estratégico (IA)
+                                </button>
                             </div>
                             <DateInput
                                 label="Data do Saldo"
@@ -1081,17 +1142,6 @@ export const ContractForm = ({ data, onChange, onReset, onSaveClient, onDeleteCl
                 <div className="p-6 bg-midnight-lighter/20 border-l-2 border-rose-500 rounded-r-[2rem] space-y-6 animate-in fade-in slide-in-from-top-4 duration-500">
                     <Input label="Foro (Cidade-UF)" value={data.forumCity} onChange={e => handleChange('forumCity', e.target.value)} />
                     
-                    <div className="bg-midnight p-5 rounded-2xl border border-white/5 shadow-sm">
-                         <div className="flex items-center gap-2 mb-4 text-rose-500">
-                             <Bot size={18} /> <span className="text-[10px] font-black uppercase tracking-widest">Gerador de Cláusulas</span>
-                         </div>
-                         <div className="flex gap-2 flex-col sm:flex-row">
-                            <input className="flex-1 bg-midnight-lighter border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:border-rose-500/50 outline-none transition-all placeholder:text-slate-700 font-medium" placeholder="Ex: Multa por atraso de pagamento de 10%..." value={clausePrompt} onChange={e => setClausePrompt(e.target.value)} />
-                            <button onClick={handleGenerateClause} disabled={isClauseLoading} className="bg-rose-500 hover:bg-rose-600 px-6 py-3 rounded-xl text-white font-black text-[10px] uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50 shadow-lg shadow-rose-500/20">
-                                {isClauseLoading ? '...' : 'GERAR'}
-                            </button>
-                         </div>
-                    </div>
                     
                     <TextArea label="Cláusulas Adicionais / Observações" value={data.extraClauses} onChange={e => handleChange('extraClauses', e.target.value)} className="min-h-[150px] font-mono text-sm" />
 

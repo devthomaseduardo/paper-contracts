@@ -25,7 +25,12 @@ export const Sidebar = ({ currentType, onSelect, isOpen, onClose, user, onLogout
   ];
 
   return (
-    <div className={`fixed inset-y-0 left-0 z-[60] w-full max-w-[320px] bg-[#05070a] border-r border-white/[0.03] flex flex-col transition-transform duration-700 cubic-bezier(0.4, 0, 0.2, 1) lg:relative lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full shadow-none'}`}>
+    <div 
+      tabIndex="-1"
+      role="navigation"
+      aria-label="Menu Lateral"
+      className={`fixed inset-y-0 left-0 z-[60] w-full max-w-[320px] bg-[#05070a] border-r border-white/[0.03] flex flex-col transition-transform duration-700 cubic-bezier(0.4, 0, 0.2, 1) lg:relative lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full shadow-none'}`}
+    >
       
       {/* Mobile Close Button */}
       <button 
@@ -52,10 +57,12 @@ export const Sidebar = ({ currentType, onSelect, isOpen, onClose, user, onLogout
       </div>
 
       {/* Navigation - Editorial Index Style */}
-      <nav className="flex-1 overflow-y-auto p-8 space-y-3 custom-scrollbar">
-        <div className="flex items-center justify-between px-4 mb-8">
-           <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.4em]">Índice Principal</p>
-           <span className="text-[10px] font-bold text-azure bg-azure/5 px-2 py-0.5 rounded border border-azure/10">PRO</span>
+      <nav 
+        tabIndex="0"
+        className="flex-1 overflow-y-auto p-8 space-y-3 custom-scrollbar focus:outline-none focus-visible:bg-white/[0.02]"
+      >
+        <div className="flex items-center justify-between px-6 mb-12">
+           <p className="text-[10px] font-black text-slate-700 uppercase tracking-[0.4em]">Protocolos Ativos</p>
         </div>
 
         {menu.map((item) => {
@@ -126,40 +133,45 @@ export const Sidebar = ({ currentType, onSelect, isOpen, onClose, user, onLogout
       </nav>
 
       {/* User Identity & Integrity Widget */}
-      <div className="p-8 border-t border-white/[0.03] space-y-6">
+      <div className="p-8 border-t border-white/[0.03] space-y-8 bg-black/20">
         {user && (
-          <div className="flex items-center gap-4 px-4 mb-4">
-             <div className="w-12 h-12 rounded-2xl border border-white/10 overflow-hidden shadow-2xl relative group">
+          <div className="flex items-center gap-4 px-2">
+             <div className="w-12 h-12 rounded-xl border border-white/10 overflow-hidden shadow-2xl relative group shrink-0">
                 <img src={user.photoURL || `https://i.pravatar.cc/100?u=${user.email}`} alt={user.displayName} className="w-full h-full object-cover" />
-                <button 
-                  onClick={onLogout}
-                  className="absolute inset-0 bg-rose-500/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                  title="Sair"
-                >
-                  <LogOut size={18} className="text-white" />
-                </button>
+                <div className="absolute inset-0 bg-azure/20 opacity-0 group-hover:opacity-100 transition-opacity" />
              </div>
              <div className="flex flex-col flex-1 overflow-hidden">
                 <span className="text-[11px] font-black text-white truncate uppercase tracking-tighter">{user.displayName || 'Usuário'}</span>
-                <span className="text-[9px] text-slate-500 font-bold truncate tracking-widest uppercase">{user.email}</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-[8px] text-slate-500 font-mono font-bold tracking-widest uppercase truncate">CONECTADO_NODE_01</span>
+                </div>
              </div>
           </div>
         )}
 
-        <div className="bg-white/[0.02] rounded-[2rem] p-6 border border-white/[0.03] relative overflow-hidden group">
-           <div className="absolute top-0 left-0 w-1 h-full bg-azure opacity-20" />
-           <div className="flex items-center justify-between mb-4">
-              <span className="text-[9px] text-slate-500 font-bold uppercase">Motor do Sistema</span>
-              <span className="text-[9px] text-emerald-500 font-black uppercase tracking-widest flex items-center gap-1">
-                 <div className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" /> Operacional
-              </span>
-           </div>
-           <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-              <div className="h-full bg-azure w-full opacity-30 group-hover:opacity-60 transition-opacity" />
-           </div>
+        <div className="space-y-6">
+            <div className="bg-white/[0.02] border border-white/[0.05] p-5 rounded-[1.5rem] space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[9px] font-black text-slate-600 uppercase tracking-[0.2em]">Integridade Estratégica</span>
+                  <span className="text-[10px] font-mono font-black text-azure">94%</span>
+                </div>
+                <div className="flex gap-0.5">
+                    {Array.from({length: 20}).map((_, i) => (
+                        <div key={i} className={`h-1 flex-1 rounded-full ${i < 18 ? 'bg-azure' : 'bg-white/5'}`} />
+                    ))}
+                </div>
+            </div>
+
+            <button 
+                onClick={onLogout}
+                className="w-full py-4 flex items-center justify-center gap-3 bg-rose-500/5 hover:bg-rose-500 text-rose-500 hover:text-white rounded-2xl border border-rose-500/10 transition-all duration-300 text-[10px] font-black uppercase tracking-[0.3em] active:scale-95 group"
+            >
+                <LogOut size={16} className="group-hover:-translate-x-1 transition-transform" /> 
+                Encerrar Protocolo
+            </button>
         </div>
       </div>
-
     </div>
   );
 };
