@@ -1,7 +1,10 @@
 import 'dotenv/config';
+
 const parseOrigins = (raw) => {
-  if (!raw?.trim()) return ['http://localhost:3000'];
-  return raw.split(',').map((s) => s.trim()).filter(Boolean);
+  const defaults = ['http://localhost:3000', 'http://localhost:5173', 'http://127.0.0.1:5173'];
+  if (!raw?.trim()) return defaults;
+  const origins = raw.split(',').map((s) => s.trim()).filter(Boolean);
+  return [...new Set([...defaults, ...origins])];
 };
 
 export const config = {

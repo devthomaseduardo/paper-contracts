@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-midnight text-slate-300 antialiased;
+  }
+}
+
+@layer components {
+  .premium-glass {
+    @apply bg-midnight-lighter/95 backdrop-blur-[40px] border border-white/[0.03];
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .premium-border {
+    @apply border-white/[0.05];
+  }
+
+  .indent-8 {
+    text-indent: 2rem;
+  }
+}
+
+/* SCROLLBAR REFINEMENT */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.2);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: all 0.3s;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-azure;
+  background-clip: content-box;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 20mm 20mm 20mm 25mm;
+  }
+
+  body {
+    background-color: white !important;
+    color: black !important;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #printable-content,
+  #printable-content * {
+    visibility: visible;
+  }
+
+  #printable-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
